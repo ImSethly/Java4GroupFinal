@@ -1,24 +1,24 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class Game implements java.io.Serializable {
 
     static Player player;
     static String curMsg;
 
     static ArrayList<Room> rooms;
-
+    ArrayList<Room> Map ;
     public static void main(String[] args) {
 
         // Setup game
-        Setup();
+        Game game = new Game();
 
         // Start
         GetInput(curMsg);
 
     }
 
-    public static void Setup() {
+    public  Game() {
 
         // instead of giving just the position of the room to the player
         //why dont we pass the whole room
@@ -28,8 +28,8 @@ public class Game {
         // more fun we can call it Map instead of rooms
         //extending from the map Idea we can create a map for each room called roomMap
         //rooms = new ArrayList<>();
-        ArrayList<Room> Map ;
-        Room r;
+
+        //Room r;
 
         //we can later use our imagination to give cool name and description for each room
         //foreach room declare and instantiate an ItemList
@@ -115,6 +115,79 @@ public class Game {
         player = new Player("Player","A pro gamer",playerItemsList,Map.get(0));
         curMsg = "What do you want to do?";
     }
+
+    //getting and setting the map
+    ArrayList getMap() {
+        return Map;
+    }
+    void setMap(ArrayList aMap) {
+        Map = aMap;
+    }
+
+    //getting and setting the player
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player aPlayer) {
+        player = aPlayer;
+    }
+
+    // take and drop items
+    private void moveItem(Item i, ItemList fromlst, ItemList tolst) {
+        fromlst.remove(i);
+        tolst.add(i);
+    }
+
+    //method to take item that return msg
+    public String takeItem(String itemname) {
+        String takemsg = "";
+        //get item named or return null if it doesn't exist
+        Item i = player.getRoom().getItems().getItem(itemname);
+
+        //if there is no name of the item specified
+        if (itemname.equals("")) {
+            itemname = "nameless object";
+        }
+
+        //if item is null
+        if (i == null) {
+            takemsg = itemname + " is not here";
+        } else {
+            moveItem(i, player.getRoom().getItems(), player.getItems());
+            takemsg = "you just got " + itemname + " !";
+        }
+        return takemsg;
+    }
+
+    //method to drop item that return msg
+    public String dropItem(String itemname) {
+        String dropmsg = "";
+        Item i = player.getItems().getItem(itemname);
+        if (itemname.equals("")) {
+            dropmsg = "Can you be more specific! which Item you would like to drop?";
+        }
+
+        if (i == null) {
+            dropmsg = itemname + " is not here";
+        } else {
+            moveItem(i, player.getItems(), player.getRoom().getItems());
+            dropmsg = "you just dropped " + itemname + " !";
+        }
+        return dropmsg;
+    }
+
+    //moving the player from one room to another
+    void movePlayerTo(Player p, Room room) {
+        p.setRoom(room);
+    }
+
+    //we still need to create a methode to move inside of the room
+
+
+
+
+
 
     private static void ExecuteCommand(String input) {
 
