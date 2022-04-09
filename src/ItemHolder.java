@@ -1,6 +1,6 @@
 
 
-
+//each Item holder has a name and a description
 public class ItemHolder extends Item implements java.io.Serializable {
 
     private ItemList items = new ItemList();

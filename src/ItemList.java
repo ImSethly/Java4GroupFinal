@@ -17,7 +17,7 @@ public class ItemList extends ArrayList<Item> implements java.io.Serializable{
     }
 
     //return the item selected based on the name of the item
-    public Item thisOb(String aName) {
+    public Item getitem(String aName) {
         Item anItem = null;
         String itemName = "";
         String aNameLowCase = aName.trim().toLowerCase();
