@@ -6,7 +6,6 @@ public class Player extends ItemHolder{
     //if we consider a room as am actual ItemHolder why don't we leave the inventory there ?
     //private ArrayList<Item> inventory;
 
-
     //private int position;
     //I believe it would be nicer to add the whole room to the player class so he has access
     //to all the items inside of that room
