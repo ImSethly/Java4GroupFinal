@@ -43,16 +43,37 @@ public class Game implements java.io.Serializable {
                         break;
                     case "walk":
                         switch (input[1]) {
-                            // TODO implement moving
                             case "north":
                             case "east":
                             case "south":
                             case "west":
+                                System.out.println(walkto(input[1]));
+                                break;
+                            default:
+                                System.out.println("Invalid command!");
+                                break;
                         }
                         break;
                     case "use":
                     case "pickup":
+                        switch (input[1]) {
+                            case "apple":
+                                System.out.println(takeItem(input[1]));
+                                break;
+                            default:
+                                System.out.println("Invalid command!");
+                                break;
+                        }
+
                     case "drop":
+                        switch (input[1]) {
+                            case "apple":
+                                System.out.println(dropItem(input[1]));
+                                break;
+                            default:
+                                System.out.println("Invalid command!");
+                                break;
+                        }
                     default:
                         System.out.println("Invalid command!");
                         break;
@@ -169,13 +190,13 @@ public class Game implements java.io.Serializable {
     }
 
     // take and drop items
-    private void moveItem(Item i, ItemList fromlst, ItemList tolst) {
+    private static void moveItem(Item i, ItemList fromlst, ItemList tolst) {
         fromlst.remove(i);
         tolst.add(i);
     }
 
     //method to take item that return msg
-    public String takeItem(String itemname) {
+    public static String takeItem(String itemname) {
         String takemsg = "";
         //get item named or return null if it doesn't exist
         Item i = player.getRoom().getItems().getItem(itemname);
@@ -196,7 +217,7 @@ public class Game implements java.io.Serializable {
     }
 
     //method to drop item that return msg
-    public String dropItem(String itemname) {
+    public static String dropItem(String itemname) {
         String dropmsg = "";
         Item i = player.getItems().getItem(itemname);
         if (itemname.equals("")) {
@@ -226,7 +247,7 @@ public class Game implements java.io.Serializable {
         } else
         {
             if (player.getRoom().GetDirection(dir).getIsLocked()) {
-                movemsg = "There is a path, but it is locked to the " + dir + " !";
+                movemsg = "There is a path to the " + dir + " but it is locked !";
             } else
             {
                 switch (r.getId()) {
