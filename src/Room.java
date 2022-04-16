@@ -46,4 +46,6 @@ public class Room extends ItemHolder implements java.io.Serializable {
         return dir;
     }
 
+    public int getId() { return this.id; }
+
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Game implements java.io.Serializable {
@@ -7,7 +8,8 @@ public class Game implements java.io.Serializable {
     static String curMsg;
 
     static ArrayList<Room> rooms;
-    ArrayList<Room> Map ;
+    static ArrayList<Room> Map;
+
     public static void main(String[] args) {
 
         // Setup game and create rooms
@@ -23,22 +25,24 @@ public class Game implements java.io.Serializable {
             // Parsing method here
             if (input.length != 2) {
                 System.out.println("Please use 2 word commands only.");
-            }
-            else {
+            } else {
                 // Execute Commands
                 switch (input[0]) {
                     case "look":
-                        switch(input[1]) {
+                        switch (input[1]) {
                             case "north":
                             case "east":
                             case "south":
                             case "west":
                                 System.out.println(player.getRoom().GetDirection(input[1]).getDescription());
                                 break;
+                            default:
+                                System.out.println("Invalid command!");
+                                break;
                         }
                         break;
                     case "walk":
-                        switch(input[1]) {
+                        switch (input[1]) {
                             // TODO implement moving
                             case "north":
                             case "east":
@@ -58,7 +62,7 @@ public class Game implements java.io.Serializable {
 
     }
 
-    public  Game() {
+    public Game() {
 
         // Item lists for each room
         ItemList room1List = new ItemList();
@@ -77,17 +81,17 @@ public class Game implements java.io.Serializable {
         Map = new ArrayList<Room>();
 
         // instantiate rooms
-        Map.add(new Room("Room1","Description1",room1List,1));
-        Map.add(new Room("Room2","Description2",room2List,2));
-        Map.add(new Room("Room3","Description3",room3List,3));
-        Map.add(new Room("Room4","Description4",room4List,4));
-        Map.add(new Room("Room5","Description5",room5List,5));
-        Map.add(new Room("Room6","Description6",room6List,6));
-        Map.add(new Room("Room7","Description7",room7List,7));
-        Map.add(new Room("Room8","Description8",room8List,8));
+        Map.add(new Room("Room1", "Description1", room1List, 1));
+        Map.add(new Room("Room2", "Description2", room2List, 2));
+        Map.add(new Room("Room3", "Description3", room3List, 3));
+        Map.add(new Room("Room4", "Description4", room4List, 4));
+        Map.add(new Room("Room5", "Description5", room5List, 5));
+        Map.add(new Room("Room6", "Description6", room6List, 6));
+        Map.add(new Room("Room7", "Description7", room7List, 7));
+        Map.add(new Room("Room8", "Description8", room8List, 8));
 
         // for each room in the map set directions
-        for (Room room: Map) {
+        for (Room room : Map) {
             switch (room.getName().toLowerCase()) {
                 case "room1":
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
@@ -142,15 +146,16 @@ public class Game implements java.io.Serializable {
         }
 
         //add a player and place it in the first room
-        player = new Player("Player","A pro gamer",playerItemsList,Map.get(0));
+        player = new Player("Player", "A pro gamer", playerItemsList, Map.get(0));
         curMsg = "What do you want to do?";
     }
 
     //getting and setting the map
-    ArrayList getMap() {
+    public static ArrayList getMap() {
         return Map;
     }
-    void setMap(ArrayList aMap) {
+
+    public void setMap(ArrayList aMap) {
         Map = aMap;
     }
 
@@ -208,10 +213,169 @@ public class Game implements java.io.Serializable {
     }
 
     //moving the player from one room to another
-    void movePlayerTo(Player p, Room room) {
+    public static void movePlayerTo(Player p, Room room) {
         p.setRoom(room);
     }
 
     // TODO we still need to create a methode to move inside of the room
+    public static String walkto(String dir) {
+        String movemsg = "";
+        Room r = player.getRoom();
+        if (!player.getRoom().GetDirection(dir).getHasPath()) {
+            movemsg = "There is no path to the " + dir + " !";
+        } else
+        {
+            if (player.getRoom().GetDirection(dir).getIsLocked()) {
+                movemsg = "There is a path, but it is locked to the " + dir + " !";
+            } else
+            {
+                switch (r.getId()) {
+                    case 1:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "You are going to " + Map.get(1).getName();
+                                movePlayerTo(player, Map.get(1));
+                            }
+                            case "east" -> {
+                                movemsg = "You are going to " + Map.get(5).getName();
+                                movePlayerTo(player, Map.get(5));
+                            }
+                            case "south" -> {
+                                movemsg = "To the south, you see the portal that brought you here. You cannot access it";
+                            }
+                            case "west" -> {
+                                movemsg = "You are going to " + Map.get(4).getName();
+                                movePlayerTo(player, Map.get(4));
+                            }
+                        }
+                        break;
+                    case 2:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "To the north, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "east" -> {
+                                movemsg = "To the east, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "south" -> {
+                                movemsg = "You are going to " + Map.get(0).getName();
+                                movePlayerTo(player, Map.get(0));
+                            }
+                            case "west" -> {
+                                movemsg = "You are going to " + Map.get(2).getName();
+                                movePlayerTo(player, Map.get(2));
+                            }
+                        }
+                        break;
+                    case 3:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "To the north, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "east" -> {
+                                movemsg = "You are going to " + Map.get(1).getName();
+                                movePlayerTo(player, Map.get(1));
+                            }
+                            case "south" -> {
+                                movemsg = "To the south, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "west" -> {
+                                movemsg = "To the west, there is woods too thick to pass. You cannot access it";
+                            }
+                        }
+                        break;
+                    case 4:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "To the north, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "east" -> {
+                                movemsg = "To the east, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "south" -> {
+                                movemsg = "You are going to " + Map.get(5).getName();
+                                movePlayerTo(player, Map.get(5));
+                            }
+                            case "west" -> {
+                                movemsg = "To the west, there is woods too thick to pass. You cannot access it";
+                            }
+                        }
+                        break;
+                    case 5:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "To the north , there is woods too thick to pass. You cannot access it";
+                            }
+                            case "east" -> {
+                                movemsg = "You are going to " + Map.get(0).getName();
+                                movePlayerTo(player, Map.get(0));
+                            }
+                            case "south" -> {
+                                movemsg = "To the south, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "west" -> {
+                                movemsg = "To the west, there is woods too thick to pass. You cannot access it";
+                            }
+                        }
+                        break;
+                    case 6:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "You are going to " + Map.get(3).getName();
+                                movePlayerTo(player, Map.get(3));
+                            }
+                            case "east" -> {
+                                movemsg = "You are going to " + Map.get(6).getName();
+                                movePlayerTo(player, Map.get(6));
+                            }
+                            case "south" -> {
+                                movemsg = "To the south, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "west" -> {
+                                movemsg = "You are going to " + Map.get(0).getName();
+                                movePlayerTo(player, Map.get(0));
+                            }
+                        }
+                        break;
+                    case 7:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "To the north , there is woods too thick to pass. You cannot access it";
+                            }
+                            case "east" -> {
+                                movemsg = "To the east, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "south" -> {
+                                movemsg = "You are going to " + Map.get(7).getName();
+                                movePlayerTo(player, Map.get(7));
+                            }
+                            case "west" -> {
+                                movemsg = "You are going to " + Map.get(5).getName();
+                                movePlayerTo(player, Map.get(5));
+                            }
+                        }
+                        break;
+                    case 8:
+                        switch (dir.toLowerCase()) {
+                            case "north" -> {
+                                movemsg = "You are going to " + Map.get(6).getName();
+                                movePlayerTo(player, Map.get(6));
+                            }
+                            case "east" -> {
+                                movemsg = "To the east, there is woods too thick to pass. You cannot access it";
+                            }
+                            case "south" -> {
+                                movemsg = "Congrats!! you found your Exit !";
+                            }
+                            case "west" -> {
+                                movemsg = "To the west, there is woods too thick to pass. You cannot access it";
+                            }
+                        }
+                        break;
 
+                }
+            }
+        }
+        return movemsg;
+    }
 }
