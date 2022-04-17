@@ -7,13 +7,13 @@ public class ItemList extends ArrayList<Item> implements java.io.Serializable{
     public String describeItems() {
         StringBuilder s = new StringBuilder();
         if (this.size() == 0) {
-            s = new StringBuilder("nothing.\n");
+            s = new StringBuilder("You don't have any items.\n");
         } else {
             for (Item t : this) {
                 s.append(t.getName()).append(": ").append(t.getDescription()).append("\n");
             }
         }
-        return s.toString();
+        return s.toString().trim();
     }
 
     //return the item selected based on the name of the item

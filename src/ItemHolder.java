@@ -16,15 +16,6 @@ public class ItemHolder extends Item implements java.io.Serializable {
         return items;
     }
 
-    // Get item list in the form of a string
-    public String getInventory() {
-        StringBuilder inv = new StringBuilder();
-        for (Item i: items) {
-            inv.append(" ").append(i.getName());
-        }
-        return inv.toString().trim();
-    }
-
     //set a list of items in the item holder
     public void setItems(ItemList things) {
         this.items = items;

@@ -17,6 +17,9 @@ public class Game implements java.io.Serializable {
         // Setup game and create rooms
         Game game = new Game();
 
+        // Starting Message
+        System.out.println("Welcome player! We are in need of your help!\nThe Orcs have become rather distressed and we need your help calming them down.\nPlease locate all 6 Orcs and find a way to calm them down.");
+
         // Get user input
         Scanner userInput = new Scanner(System.in);
         while (userInput.hasNext()) {
@@ -27,9 +30,11 @@ public class Game implements java.io.Serializable {
             if (input.length > 0 && input.length < 3) {
                 // Execute Commands
                 switch (input[0]) {
+                    // Help command
                     case "help":
                         System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, inventory");
                         break;
+                    // Look command
                     case "look":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -48,6 +53,7 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: look <direction>");
                         }
                         break;
+                    // Walk command
                     case "walk":
                         if (input.length == 2) {
                             if (player.getRoom() == Map.get(0) && game.isTutorial) {
@@ -71,6 +77,7 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: walk <direction>");
                         }
                         break;
+                    // Use command
                     case "use":
                         if (input.length == 2) {
                             // TODO implement using an item
@@ -79,6 +86,7 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: use <item>");
                         }
                         break;
+                    // Pickup command
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -94,6 +102,7 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: pickup <item>");
                         }
                         break;
+                    // Drop command
                     case "drop":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -109,13 +118,9 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: drop <item>");
                         }
                         break;
+                    // Inventory command
                     case "inventory":
-                        if (player.getItems().size() <= 0) {
-                            System.out.println("You don't have any items.");
-                        }
-                        else {
-                            System.out.println(player.getInventory());
-                        }
+                        System.out.println(player.getItems().describeItems());
                         break;
                     default:
                         System.out.println("Invalid command!");
