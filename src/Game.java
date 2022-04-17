@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Game implements java.io.Serializable {
@@ -7,8 +8,9 @@ public class Game implements java.io.Serializable {
     static Player player;
     static String curMsg;
 
-    static ArrayList<Room> rooms;
     static ArrayList<Room> Map;
+
+    boolean isTutorial = true;
 
     public static void main(String[] args) {
 
@@ -22,62 +24,106 @@ public class Game implements java.io.Serializable {
             // Break the userInput into arguments
             String[] input = userInput.nextLine().toLowerCase().split(" ");
 
-            // Parsing method here
-            if (input.length != 2) {
-                System.out.println("Please use 2 word commands only.");
-            } else {
+            if (input.length > 0 && input.length < 3) {
                 // Execute Commands
                 switch (input[0]) {
+                    case "help":
+                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, inventory");
+                        break;
                     case "look":
-                        switch (input[1]) {
-                            case "north":
-                            case "east":
-                            case "south":
-                            case "west":
-                                System.out.println(player.getRoom().GetDirection(input[1]).getDescription());
-                                break;
-                            default:
-                                System.out.println("Invalid command!");
-                                break;
+                        if (input.length == 2) {
+                            switch (input[1]) {
+                                case "north":
+                                case "east":
+                                case "south":
+                                case "west":
+                                    System.out.println(player.getRoom().GetDirection(input[1]).getDescription());
+                                    break;
+                                default:
+                                    System.out.println("Invalid command!");
+                                    break;
+                            }
+                        }
+                        else {
+                            System.out.println("Invalid Command. Try: look <direction>");
                         }
                         break;
                     case "walk":
-                        switch (input[1]) {
-                            case "north":
-                            case "east":
-                            case "south":
-                            case "west":
-                                System.out.println(walkto(input[1]));
-                                break;
-                            default:
-                                System.out.println("Invalid command!");
-                                break;
+                        if (input.length == 2) {
+                            if (player.getRoom() == Map.get(0) && game.isTutorial) {
+                                System.out.println("Please finish the tutorial before leaving the room.");
+                            }
+                            else {
+                                switch (input[1]) {
+                                    case "north":
+                                    case "east":
+                                    case "south":
+                                    case "west":
+                                        System.out.println(walkto(input[1]));
+                                        break;
+                                    default:
+                                        System.out.println("Invalid command!");
+                                        break;
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("Invalid Command. Try: walk <direction>");
                         }
                         break;
                     case "use":
+                        if (input.length == 2) {
+                            // TODO implement using an item
+                        }
+                        else {
+                            System.out.println("Invalid Command. Try: use <item>");
+                        }
+                        break;
                     case "pickup":
-                        switch (input[1]) {
-                            case "apple":
-                                System.out.println(takeItem(input[1]));
-                                break;
-                            default:
-                                System.out.println("Invalid command!");
-                                break;
+                        if (input.length == 2) {
+                            switch (input[1]) {
+                                case "apple":
+                                    System.out.println(takeItem(input[1]));
+                                    break;
+                                default:
+                                    System.out.println("Invalid command!");
+                                    break;
+                            }
                         }
-
+                        else {
+                            System.out.println("Invalid Command. Try: pickup <item>");
+                        }
+                        break;
                     case "drop":
-                        switch (input[1]) {
-                            case "apple":
-                                System.out.println(dropItem(input[1]));
-                                break;
-                            default:
-                                System.out.println("Invalid command!");
-                                break;
+                        if (input.length == 2) {
+                            switch (input[1]) {
+                                case "apple":
+                                    System.out.println(dropItem(input[1]));
+                                    break;
+                                default:
+                                    System.out.println("Invalid command!");
+                                    break;
+                            }
                         }
+                        else {
+                            System.out.println("Invalid Command. Try: drop <item>");
+                        }
+                        break;
+                    case "inventory":
+                        if (player.getItems().size() <= 0) {
+                            System.out.println("You don't have any items.");
+                        }
+                        else {
+                            System.out.println(player.getInventory());
+                        }
+                        break;
                     default:
                         System.out.println("Invalid command!");
                         break;
                 }
+            }
+            else {
+                System.out.println("Please only use one and two word commands.");
             }
         }
 
