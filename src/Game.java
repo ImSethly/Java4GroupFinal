@@ -9,6 +9,7 @@ public class Game implements java.io.Serializable {
     static String curMsg;
 
     static ArrayList<Room> Map;
+    static ArrayList<NPC> NPCS;
 
     boolean isTutorial = true;
 
@@ -150,8 +151,19 @@ public class Game implements java.io.Serializable {
         // Item list for player
         ItemList playerItemsList = new ItemList();
 
+        // Item list for NPC's
+        ItemList Orc1List = new ItemList();
+        ItemList Orc2List = new ItemList();
+        ItemList Orc3List = new ItemList();
+        ItemList Orc4List = new ItemList();
+        ItemList Orc5List = new ItemList();
+        ItemList Orc6List = new ItemList();
+
         // instantiate map
         Map = new ArrayList<Room>();
+
+        // instantiate orc list
+        NPCS = new ArrayList<NPC>();
 
         // instantiate rooms
         Map.add(new Room("Room1", "Description1", room1List, 1));
@@ -217,6 +229,19 @@ public class Game implements java.io.Serializable {
 
             }
         }
+
+        //Instantiate NPCS
+        NPCS.add(new NPC("ORC",Map.get(0),"ORC1","ORCDescription1",Orc1List));
+        NPCS.add(new NPC("ORC",Map.get(2),"ORC2","ORCDescription2",Orc2List));
+        NPCS.add(new NPC("ORC",Map.get(3),"ORC3","ORCDescription3",Orc3List));
+        NPCS.add(new NPC("ORC",Map.get(4),"ORC4","ORCDescription4",Orc4List));
+        NPCS.add(new NPC("ORC",Map.get(5),"ORC5","ORCDescription5",Orc5List));
+        NPCS.add(new NPC("ORC",Map.get(7),"ORC6","ORCDescription6",Orc6List));
+
+        //TODO: add a list of msgs for each ORC
+
+
+
 
         //add a player and place it in the first room
         player = new Player("Player", "A pro gamer", playerItemsList, Map.get(0));
@@ -313,7 +338,7 @@ public class Game implements java.io.Serializable {
     }
 
 
-    // TODO we still need to create a methode to move inside of the room
+    //move inside of the room
     public static String walkto(String dir) {
         String movemsg = "";
         Room r = player.getRoom();
