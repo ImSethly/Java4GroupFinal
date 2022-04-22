@@ -61,7 +61,7 @@ public class Game implements java.io.Serializable {
                     case "walk":
                         if (input.length == 2) {
                             if (player.getRoom() == Map.get(0) && game.isTutorial) {
-                                System.out.println("Please finish the tutorial before leaving the room.");
+                                System.out.println("Please finish the tutorial before leaving the room.\n "+ NPCS.get(0).getmsg(0));
                             }
                             else {
                                 switch (input[1]) {
