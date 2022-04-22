@@ -19,6 +19,7 @@ public class Game implements java.io.Serializable {
 
         // Starting Message
         System.out.println("Welcome player! We are in need of your help!\nThe Orcs have become rather distressed and we need your help calming them down.\nPlease locate all 6 Orcs and find a way to calm them down.");
+        System.out.println(currentLocation());
 
         // Get user input
         Scanner userInput = new Scanner(System.in);
@@ -289,6 +290,29 @@ public class Game implements java.io.Serializable {
         p.setRoom(room);
     }
 
+    // Return which room you are at currently
+    public static String currentLocation(){
+        Room r = player.getRoom();
+        return "You are in " + r.getName() + " which is " + r.getDescription();
+    }
+
+    //Unlock Path
+    public static String unlockPath(Room r, String dir){
+        String msg = "";
+        if(r.GetDirection(dir).getHasPath()){
+            if(!r.GetDirection(dir).getIsLocked()) {
+                msg = dir + " direction of " + r.getName() + " is already unlocked!";
+            }else{
+                r.GetDirection(dir).setIsLocked(false);
+                msg = dir + " direction of " + r.getName() + " is now unlocked!";
+            }
+        }else{
+            msg = dir + " direction of " + r.getName() + " doesn't have a path";
+        }
+        return msg;
+    }
+
+
     // TODO we still need to create a methode to move inside of the room
     public static String walkto(String dir) {
         String movemsg = "";
@@ -298,7 +322,7 @@ public class Game implements java.io.Serializable {
         } else
         {
             if (player.getRoom().GetDirection(dir).getIsLocked()) {
-                movemsg = "There is a path to the " + dir + " but it is locked !";
+                movemsg = "There is a path to the " + dir + " but it is locked!";
             } else
             {
                 switch (r.getId()) {
