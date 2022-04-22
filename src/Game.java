@@ -11,7 +11,7 @@ public class Game implements java.io.Serializable {
     static ArrayList<Room> Map;
     static ArrayList<NPC> NPCS;
 
-    boolean isTutorial = true;
+    static boolean isTutorial = true;
 
     public static void main(String[] args) {
 
@@ -24,6 +24,8 @@ public class Game implements java.io.Serializable {
 
         // Get user input
         Scanner userInput = new Scanner(System.in);
+
+        System.out.print(">");
         while (userInput.hasNext()) {
 
             // Break the userInput into arguments
@@ -92,7 +94,7 @@ public class Game implements java.io.Serializable {
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "apple":
+                                case "glasses":
                                     System.out.println(takeItem(input[1]));
                                     break;
                                 default:
@@ -120,6 +122,22 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: drop <item>");
                         }
                         break;
+                    // Give command
+                    case "give":
+                        if (input.length == 2) {
+                            switch (input[1]) {
+                                case "glasses":
+                                    System.out.println(give(input[1]));
+                                    break;
+                                default:
+                                    System.out.println("Invalid command!");
+                                    break;
+                            }
+
+                        } else {
+                            System.out.println("Invalid Command. Try: give <item>");
+                        }
+                        break;
                     // Inventory command
                     case "inventory":
                         System.out.println(player.getItems().describeItems());
@@ -132,6 +150,7 @@ public class Game implements java.io.Serializable {
             else {
                 System.out.println("Please only use one and two word commands.");
             }
+            System.out.print(">");
         }
 
     }
@@ -159,6 +178,14 @@ public class Game implements java.io.Serializable {
         ItemList Orc5List = new ItemList();
         ItemList Orc6List = new ItemList();
 
+        //TODO: add items to each room list of items
+        room1List.add(new Item("Glasses", "Huge glasses seems to belong to a huge creature"));
+
+
+        //TODO:add items to player if applicable
+
+        //TODO:add items to Orcs if applicable
+
         // instantiate map
         Map = new ArrayList<Room>();
 
@@ -181,7 +208,7 @@ public class Game implements java.io.Serializable {
                 case "room1":
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
                     room.SetDirection("east", "To the east, there is an open path.", true, true);
-                    room.SetDirection("south", "To the south, you see the portal that brought you here.", false, false);
+                    room.SetDirection("south", "To the south, there are glasses on the ground that you can pick, and you see the portal that brought you here.", false, false);
                     room.SetDirection("west", "To the west, there is a dark tunnel.", true, true);
                     break;
                 case "room2":
@@ -238,8 +265,35 @@ public class Game implements java.io.Serializable {
         NPCS.add(new NPC("ORC",Map.get(5),"ORC5","ORCDescription5",Orc5List));
         NPCS.add(new NPC("ORC",Map.get(7),"ORC6","ORCDescription6",Orc6List));
 
-        //TODO: add a list of msgs for each ORC
-
+        //add a list of msgs for each ORC
+        for (NPC npc: NPCS) {
+            switch (npc.getName().toLowerCase()){
+                case "orc1":
+                    npc.setmsg(npc.getName() + ": Ughhh!  can't find my glasses so I can read the book. if you wanna pass to the next level you have to look around and find my glasses and return them to me!");
+                    npc.setmsg(npc.getName() + ": Thank you! Now I can read. you might pass to the next room now (walk north)!");
+                    break;
+                case "orc2":
+                    npc.setmsg(npc.getName() + ": orc 2 msg1");
+                    npc.setmsg(npc.getName() + ": orc 2 nsg2");
+                    break;
+                case "orc3":
+                    npc.setmsg(npc.getName() + ": orc 3 msg1");
+                    npc.setmsg(npc.getName() + ": orc 3 nsg2");
+                    break;
+                case "orc4":
+                    npc.setmsg(npc.getName() + ": orc 4 msg1");
+                    npc.setmsg(npc.getName() + ": orc 4 nsg2");
+                    break;
+                case "orc5":
+                    npc.setmsg(npc.getName() + ": orc 5 msg1");
+                    npc.setmsg(npc.getName() + ": orc 5 nsg2");
+                    break;
+                case "orc6":
+                    npc.setmsg(npc.getName() + ": orc 6 msg1");
+                    npc.setmsg(npc.getName() + ": orc 6 nsg2");
+                    break;
+            }
+        }
 
 
 
@@ -309,6 +363,59 @@ public class Game implements java.io.Serializable {
         }
         return dropmsg;
     }
+    //TODO: method to drop item that return msg
+    public static String give(String itemname) {
+        String givemsg ="";
+
+        //get item named or return null if it doesn't exist
+        Item i = player.getItems().getItem(itemname);
+
+        if (itemname.equals("")) {
+            givemsg = "Can you be more specific! which Item you would like to give?";
+        }
+        if (i == null) {
+            givemsg = itemname + " is not here";
+        } else
+        {
+            switch(player.getRoom().getId()){
+                case 1:
+                    switch (itemname.toLowerCase()){
+                        case "glasses":
+                            moveItem(i, player.getItems(), NPCS.get(0).getItems());
+                            unlockPath(player.getRoom(),"north");
+                            isTutorial = false;
+                            givemsg = "you just handed " + itemname + " to " + NPCS.get(0).getName() +"\n " + NPCS.get(0).getmsg(1);
+                    }
+                    break;
+                case 2:
+                    givemsg = "";
+                    break;
+                case 3:
+                    givemsg = "";
+                    break;
+                case 4:
+                    givemsg = "";
+                    break;
+                case 5:
+                    givemsg = "";
+                    break;
+                case 6:
+                    givemsg = "";
+                    break;
+                case 7:
+                    givemsg = "";
+                    break;
+                case 8:
+                    givemsg = "";
+                    break;
+
+            }
+
+        }
+        return givemsg;
+    }
+
+
 
     //moving the player from one room to another
     public static void movePlayerTo(Player p, Room room) {

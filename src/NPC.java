@@ -13,7 +13,7 @@ public class NPC extends ItemHolder implements java.io.Serializable {
     private Room room;
 
     //pre-set msgs
-    private ArrayList<String> msgs;
+    private ArrayList<String> msgs= new ArrayList<>();;
 
     // Constructor to create an NPC
     public NPC(String species, Room room, String npcName, String description, ItemList il) {
