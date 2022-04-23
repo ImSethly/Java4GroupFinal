@@ -19,7 +19,7 @@ public class Game implements java.io.Serializable {
         Game game = new Game();
 
         // Starting Message
-        System.out.println("Welcome player! We are in need of your help!\nThe Orcs have become rather distressed and we need your help calming them down.\nPlease locate all 6 Orcs and find a way to calm them down.");
+        System.out.println("Welcome player! We are in need of your help!\nThe Orcs have become rather distressed and we need your help calming them down.\nPlease locate all 6 Orcs and find a way to calm them down.\n Type Help to see all the valid commands");
         System.out.println(currentLocation());
 
         // Get user input
@@ -36,7 +36,7 @@ public class Game implements java.io.Serializable {
                 switch (input[0]) {
                     // Help command
                     case "help":
-                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, inventory");
+                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, give <item>, inventory");
                         break;
                     // Look command
                     case "look":
@@ -91,6 +91,7 @@ public class Game implements java.io.Serializable {
                         }
                         break;
                     // Pickup command
+                    // TODO: when a player pickup an item change the direction message so it is no longer available in the direction message.
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -331,11 +332,6 @@ public class Game implements java.io.Serializable {
         String takemsg = "";
         //get item named or return null if it doesn't exist
         Item i = player.getRoom().getItems().getItem(itemname);
-
-        //if there is no name of the item specified
-        if (itemname.equals("")) {
-            itemname = "nameless object";
-        }
 
         //if item is null
         if (i == null) {
