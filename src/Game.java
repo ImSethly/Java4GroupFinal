@@ -375,7 +375,7 @@ public class Game implements java.io.Serializable {
                 break;
         }
             System.out.println(" ---Room3---        ---Room2---       ---Room4---");
-            System.out.println("|    "+ r3 +"     |------|    "+r2+"     |-----|     "+r4+"    |");
+            System.out.println("|    "+ r3 +"     |------|    "+r2+"     |     |     "+r4+"    |");
             System.out.println(" -----------        -----------       -----------");
             System.out.println("                          |                |");
             System.out.println(" ---Room5---        ---Room1---       ---Room6---       ---Room7---");
