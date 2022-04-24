@@ -86,7 +86,8 @@ public class Game implements java.io.Serializable {
                         if (input.length == 2) {
                             // TODO implement using an item
                             switch (input[1]) {
-                                case "flashlight" -> System.out.println(useItem(input[1]));
+                                case "flashlight", "book" -> System.out.println(useItem(input[1]));
+
                             }
                         }
                         else {
@@ -371,7 +372,15 @@ public class Game implements java.io.Serializable {
                     {
                         usemsg = "You cannot use " + itemname + "here!";
                     }
-
+                    break;
+                case "book":
+                    if(Map.get(1).equals(player.getRoom())){
+                        unlockPath(player.getRoom(), "west");
+                        usemsg = "You placed the " + itemname + " on the book shelf. The book shelf rotates revealing a hidden path way";
+                    }else{
+                        usemsg = "This book is written in ORCish, I can't read it!";
+                    }
+                    break;
             }
 
 
