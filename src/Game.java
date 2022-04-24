@@ -154,7 +154,9 @@ public class Game implements java.io.Serializable {
                         }
                         break;
                     //TODO: implement a command to check the progress
-
+                    case "map":
+                        showMap();
+                        break;
                     default:
                         System.out.println("Invalid command!");
                         break;
@@ -344,6 +346,46 @@ public class Game implements java.io.Serializable {
         tolst.add(i);
     }
 
+    public static void showMap(){
+        String r1="  ",r2="  ",r3="  ",r4="  ",r5="  ",r6="  ",r7="  ",r8="  ";
+        switch (player.getRoom().getId()){
+            case 1:
+                r1 = "**";
+                break;
+            case 2:
+                r2 = "**";
+                break;
+            case 3:
+                r3 = "**";
+                break;
+            case 4:
+                r4 = "**";
+                break;
+            case 5:
+                r5 = "**";
+                break;
+            case 6:
+                r6 = "**";
+                break;
+            case 7:
+                r7= "**";
+                break;
+            case 8:
+                r8 = "**";
+                break;
+        }
+            System.out.println(" ---Room3---        ---Room2---       ---Room4---");
+            System.out.println("|    "+ r3 +"     |------|    "+r2+"     |-----|     "+r4+"    |");
+            System.out.println(" -----------        -----------       -----------");
+            System.out.println("                          |                |");
+            System.out.println(" ---Room5---        ---Room1---       ---Room6---       ---Room7---");
+            System.out.println("|    "+ r5 +"     |------|    "+r1+"     |-----|     "+r6+"    |-----|     "+r6+"    |");
+            System.out.println(" -----------        -----------       -----------       -----------");
+            System.out.println("                                                            |");
+            System.out.println("                                                        ---Room8---");
+            System.out.println("                                                       |     "+r8+"    |");
+            System.out.println("                                                        -----------");
+    }
     //method to take item that return msg
     public static String takeItem(String itemname) {
         String takemsg = "";
