@@ -210,7 +210,7 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
                     room.SetDirection("east", "To the east, there is an open path.", true, true);
                     room.SetDirection("south", "To the south, there are glasses on the ground that you can pick, and you see the portal that brought you here.", false, false);
-                    room.SetDirection("west", "To the west, there is a dark tunnel.", true, true);
+                    room.SetDirection("west", "To the west, there is a dark tunnel, too dark to pass without light source.", true, true);
                     break;
                 case "room2":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
@@ -245,7 +245,7 @@ public class Game implements java.io.Serializable {
                 case "room7":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
                     room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
-                    room.SetDirection("south", "To the south, there is a steep cliff.", true, true);
+                    room.SetDirection("south", "To the south, there is a steep cliff. You might need help getting down to the bottom", true, true);
                     room.SetDirection("west", "To the west, there is an old book, and an open path.", true, false);
                     break;
                 case "room8":
@@ -259,37 +259,37 @@ public class Game implements java.io.Serializable {
         }
 
         //Instantiate NPCS
-        NPCS.add(new NPC("ORC",Map.get(0),"Durz","ORCDescription1",Orc1List));
-        NPCS.add(new NPC("ORC",Map.get(2),"Igug","ORCDescription2",Orc2List));
-        NPCS.add(new NPC("ORC",Map.get(3),"Nar","ORCDescription3",Orc3List));
-        NPCS.add(new NPC("ORC",Map.get(4),"Vatu","ORCDescription4",Orc4List));
-        NPCS.add(new NPC("ORC",Map.get(5),"Bor","ORCDescription5",Orc5List));
-        NPCS.add(new NPC("ORC",Map.get(7),"Ugak","ORCDescription6",Orc6List));
+        NPCS.add(new NPC("ORC",Map.get(0),"Durz(ORC1)","ORCDescription1",Orc1List));
+        NPCS.add(new NPC("ORC",Map.get(2),"Igug(ORC2)","ORCDescription2",Orc2List));
+        NPCS.add(new NPC("ORC",Map.get(3),"Nar(ORC3)","ORCDescription3",Orc3List));
+        NPCS.add(new NPC("ORC",Map.get(4),"Vatu(ORC4)","ORCDescription4",Orc4List));
+        NPCS.add(new NPC("ORC",Map.get(5),"Bor(ORC5)","ORCDescription5",Orc5List));
+        NPCS.add(new NPC("ORC",Map.get(7),"Ugak(ORC6)","ORCDescription6",Orc6List));
 
         //add a list of msgs for each ORC
         for (NPC npc: NPCS) {
             switch (npc.getName().toLowerCase()){
-                case "durz":
+                case "durz(orc1)":
                     npc.setmsg(npc.getName() + ": Ugh-hh! I can't find my glasses to read my favorite book. If you want to pass to the next level you have to look around, find my glasses, and return them to me!");
-                    npc.setmsg(npc.getName() + ": Thank you, finally I can read again! My book says that you can now [walk north], try it out!");
+                    npc.setmsg(npc.getName() + ": Thank you, finally I can read again! My book says that you can now leave the room, try it out!");
                     break;
-                case "igug":
+                case "igug(orc2)":
                     npc.setmsg(npc.getName() + ": Please help! My toy robot is broken and I can't find all of the pieces... Please find all of the pieces and return them to me!");
                     npc.setmsg(npc.getName() + ": You found all of the missing parts! Dreams really do come true! Thank you for bringing happiness back into my life once more.");
                     break;
-                case "nar":
+                case "nar(orc3)":
                     npc.setmsg(npc.getName() + ": I'm afraid of the dark, can you help me find my way home? I'd appreciate it greatly!");
                     npc.setmsg(npc.getName() + ": Thank you for guiding me through the dark. Darkness is much friendlier with a friend... and a flashlight!");
                     break;
-                case "vatu":
+                case "vatu(orc4)":
                     npc.setmsg(npc.getName() + ": Play with me! Throughout the forest are scattered hints to solve my riddle. Find the hints and piece them together (metaphorically)!");
                     npc.setmsg(npc.getName() + ": You figured out the answer to my master riddle, congratulations! Thanks for playing with me. Next time I'll have to make an even hard one!");
                     break;
-                case "bor":
+                case "bor(orc5)":
                     npc.setmsg(npc.getName() + ": I'll never be happy unless I can figure out this math problem... What are the first 5 digits of pi??");
                     npc.setmsg(npc.getName() + ": You're really smart, thank you for helping me. Now I can go home and eat the good kind of pie, yum!");
                     break;
-                case "ugak":
+                case "ugak(orc6)":
                     npc.setmsg(npc.getName() + ": I don't trust you, human. Tell me the names of all of my orc comrades, then maybe we can be friends.");
                     npc.setmsg(npc.getName() + ": You're pretty nice for a human. I suppose we can be friends. Ugak is happy.");
                     break;
@@ -346,14 +346,35 @@ public class Game implements java.io.Serializable {
     public static String useItem(String itemname) {
         String usemsg = "";
         //get item named or return null if it doesn't exist
-        Item i = player.getRoom().getItems().getItem(itemname);
+        Item i = player.getItems().getItem(itemname);
 
         //if item is null
         if (i == null) {
-            usemsg = itemname + " doesn't help here.";
+            usemsg = itemname + " isn't in your inventory.";
         } else {
-            moveItem(i, player.getRoom().getItems(), player.getItems());
-            usemsg = "Used " + itemname + " !";
+            switch (itemname){
+                case "flashlight":
+                    if (Map.get(0).equals(player.getRoom())) {
+                        unlockPath(player.getRoom(), "west");
+                        usemsg = "Used " + itemname + " ! The flashlight lights the way to the west in " + player.getRoom().getName();
+                    } else {
+                        usemsg = "You cannot use " + itemname + " in " + player.getRoom().getName();
+                    }
+                    break;
+                case "rope":
+                    //Check if player is in either room 7 or room 8 else you cannot use rope
+                    if (Map.get(6).equals(player.getRoom()))
+                    {
+                        unlockPath(player.getRoom(), "south");
+                        usemsg = "You just used " + itemname + "! you can now climb down to the other side (walk south)";
+                    }else
+                    {
+                        usemsg = "You cannot use " + itemname + "here!";
+                    }
+
+            }
+
+
         }
         return usemsg;
     }
@@ -483,7 +504,7 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the south, you see the portal that brought you here. You cannot access it";
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(4).getName();
+                                movemsg = "You are going to " + Map.get(4).getName() + "\n" + NPCS.get(3).getmsg(0);
                                 movePlayerTo(player, Map.get(4));
                             }
                         }
