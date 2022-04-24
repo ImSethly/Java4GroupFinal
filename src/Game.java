@@ -31,12 +31,11 @@ public class Game implements java.io.Serializable {
             // Break the userInput into arguments
             String[] input = userInput.nextLine().toLowerCase().split(" ");
 
-            if (input.length > 0 && input.length < 3) {
                 // Execute Commands
                 switch (input[0]) {
                     // Help command
                     case "help":
-                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, give <item>, inventory");
+                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, give <item>, solve <guess>, inventory");
                         break;
                     // Look command
                     case "look":
@@ -49,7 +48,7 @@ public class Game implements java.io.Serializable {
                                     System.out.println(player.getRoom().GetDirection(input[1]).getDescription());
                                     break;
                                 default:
-                                    System.out.println("Invalid command!");
+                                    System.out.println("Invalid direction!");
                                     break;
                             }
                         }
@@ -61,6 +60,7 @@ public class Game implements java.io.Serializable {
                     case "walk":
                         if (input.length == 2) {
                             if (player.getRoom() == Map.get(0) && game.isTutorial) {
+                                //TODO: Check if we the ORC is satisfied, display different messages based on that
                                 System.out.println("Please finish the tutorial before leaving the room.\n "+ NPCS.get(0).getmsg(0));
                             }
                             else {
@@ -72,7 +72,7 @@ public class Game implements java.io.Serializable {
                                         System.out.println(walkto(input[1]));
                                         break;
                                     default:
-                                        System.out.println("Invalid command!");
+                                        System.out.println("Invalid direction!");
                                         break;
                                 }
                             }
@@ -84,10 +84,10 @@ public class Game implements java.io.Serializable {
                     // Use command
                     case "use":
                         if (input.length == 2) {
-                            // TODO implement using an item
+                            // TODO remove key items from player inventory once it is used
                             switch (input[1]) {
-                                case "flashlight", "book" -> System.out.println(useItem(input[1]));
-
+                                case "flashlight", "book", "hint1", "hint2", "hint3", "hint4" -> System.out.println(useItem(input[1]));
+                                default -> System.out.println("Invalid item name!");
                             }
                         }
                         else {
@@ -99,8 +99,8 @@ public class Game implements java.io.Serializable {
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "glasses", "flashlight", "book", "rope" -> System.out.println(takeItem(input[1]));
-                                default -> System.out.println("Invalid command!");
+                                case "glasses", "flashlight", "book", "rope", "hint1", "hint2", "hint3", "hint4" -> System.out.println(takeItem(input[1]));
+                                default -> System.out.println("Invalid item name!");
                             }
                         }
                         else {
@@ -115,7 +115,7 @@ public class Game implements java.io.Serializable {
                                     System.out.println(dropItem(input[1]));
                                     break;
                                 default:
-                                    System.out.println("Invalid command!");
+                                    System.out.println("Invalid item name!");
                                     break;
                             }
                         }
@@ -131,7 +131,7 @@ public class Game implements java.io.Serializable {
                                     System.out.println(give(input[1]));
                                     break;
                                 default:
-                                    System.out.println("Invalid command!");
+                                    System.out.println("Invalid item name!");
                                     break;
                             }
 
@@ -143,14 +143,24 @@ public class Game implements java.io.Serializable {
                     case "inventory":
                         System.out.println(player.getItems().describeItems());
                         break;
+                    case "solve":
+                        if (input.length == 2)
+                        {
+                            System.out.println(checkRiddle(input[1]));
+                        }
+                        else
+                        {
+                            System.out.println("Invalid Command. Try: solve <guess>");
+                        }
+                        break;
+                    //TODO: implement a command to check the progress
+
                     default:
                         System.out.println("Invalid command!");
                         break;
                 }
-            }
-            else {
-                System.out.println("Please only use one and two word commands.");
-            }
+
+
             System.out.print(">");
         }
 
@@ -182,8 +192,13 @@ public class Game implements java.io.Serializable {
         //TODO: add items to each room list of items
         room1List.add(new Item("Glasses", "Huge glasses seems to belong to a huge creature"));
         room2List.add(new Item("Flashlight", "A magically powered flashlight, can light even the darkest of rooms."));
+        room3List.add(new Item("Hint1", "A hint you need to use it in order to read it!"));
+        room4List.add(new Item("Hint2", "A hint you need to use it in order to read it!"));
         room5List.add(new Item("Rope", "A long sturdy rope that can easily hold your body weight"));
+        room5List.add(new Item("Hint3", "A hint you need to use it in order to read it!"));
         room7List.add(new Item("Book", "An old book, looks too boring to read."));
+        room8List.add(new Item("Hint4", "A hint you need to use it in order to read it!"));
+
         //TODO:add items to player if applicable
 
         //TODO:add items to Orcs if applicable
@@ -220,20 +235,20 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("west", "To the west, there is a tall bookshelf filled with books. It appears to be missing a book..", true, true);
                     break;
                 case "room3":
-                    room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
+                    room.SetDirection("north", "To the north, you see woods too thick to pass. It seems also to be a robot piece laying around", false, false);
                     room.SetDirection("east", "To the east, there is open path.", true, false);
-                    room.SetDirection("south", "To the south, you see woods too thick to pass.", false, false);
+                    room.SetDirection("south", "To the south, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
                     room.SetDirection("west", "To the west, there is an ugly green creature.", false, false);
                     break;
                 case "room4":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
-                    room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
+                    room.SetDirection("east", "To the east, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
                     room.SetDirection("south", "To the south, there is an open path.", true, false);
                     room.SetDirection("west", "To the west, there is an ugly green creature.", false, false);
                     break;
                 case "room5":
                     room.SetDirection("north", "To the north, there is an ugly green creature.", false, false);
-                    room.SetDirection("east", "To the east, there is an open path.", true, false);
+                    room.SetDirection("east", "To the east, there is an open path. There is a small piece of paper laying on the ground.", true, false);
                     room.SetDirection("south", "To the south, there is long rope.", false, false);
                     room.SetDirection("west", "To the west, you see woods too thick to pass.", false, false);
                     break;
@@ -253,7 +268,7 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", true, false);
                     room.SetDirection("east", "To the east, there is an ugly green creature.", false, false);
                     room.SetDirection("south", "To the south, you see woods too thick to pass.", false, false);
-                    room.SetDirection("west", "To the west, you see woods too thick to pass.", false, false);
+                    room.SetDirection("west", "To the west, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
                     break;
 
             }
@@ -285,6 +300,7 @@ public class Game implements java.io.Serializable {
                 case "vatu(orc4)":
                     npc.setmsg(npc.getName() + ": Play with me! Throughout the forest are scattered hints to solve my riddle. Find the hints and piece them together (metaphorically)!");
                     npc.setmsg(npc.getName() + ": You figured out the answer to my master riddle, congratulations! Thanks for playing with me. Next time I'll have to make an even hard one!");
+                    npc.setmsg(npc.getName() + ": Nice try! Think about it more and guess again!");
                     break;
                 case "bor(orc5)":
                     npc.setmsg(npc.getName() + ": I'll never be happy unless I can figure out this math problem... What are the first 5 digits of pi??");
@@ -381,11 +397,35 @@ public class Game implements java.io.Serializable {
                         usemsg = "This book is written in ORCish, I can't read it!";
                     }
                     break;
+                    //TODO: Fill details about the hints
+                case "hint1":
+                    usemsg = "Hint1 : ";
+                    break;
+                case "hint2":
+                    usemsg = "Hint2 : ";
+                    break;
+                case "hint3":
+                    usemsg = "Hint3 : ";
+                    break;
+                case "hint4":
+                    usemsg = "Hint4 : ";
+                    break;
             }
 
 
         }
         return usemsg;
+    }
+    //method to check if the answer for the riddle is correct
+    public static String checkRiddle(String guess){
+        String msg = "";
+        if(guess.toLowerCase().equals("dog")){
+            msg = NPCS.get(4).getmsg(1);
+        }else
+        {
+            msg = NPCS.get(4).getmsg(2);
+        }
+        return msg;
     }
     //method to drop item that return msg
     public static String dropItem(String itemname) {
