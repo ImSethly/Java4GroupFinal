@@ -86,7 +86,7 @@ public class Game implements java.io.Serializable {
                         if (input.length == 2) {
                             // TODO remove key items from player inventory once it is used
                             switch (input[1]) {
-                                case "flashlight", "book", "hint1", "hint2", "hint3", "hint4" -> System.out.println(useItem(input[1]));
+                                case "flashlight", "book", "rope", "hint1", "hint2", "hint3", "hint4" -> System.out.println(useItem(input[1]));
                                 default -> System.out.println("Invalid item name!");
                             }
                         }
