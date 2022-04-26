@@ -2,6 +2,7 @@ public class Item {
 
     private String name;
     private String description;
+    private String msg;
 
     //Item constructor
     public Item(String name, String aDescription) {
@@ -28,4 +29,15 @@ public class Item {
     public void setDescription(String aDescription) {
         this.description = aDescription;
     }
+
+    //get item msg
+    public String getmsg() {
+        return msg;
+    }
+
+    //set item msg
+    public void setmsg(String amsg) {
+        this.msg = amsg;
+    }
+
 }
