@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game implements java.io.Serializable {
 
@@ -95,7 +92,6 @@ public class Game implements java.io.Serializable {
                         }
                         break;
                     // Pickup command
-                    // TODO: when a player pickup an item change the direction message so it is no longer available in the direction message.
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -434,42 +430,76 @@ public class Game implements java.io.Serializable {
         switch (itemname.toLowerCase()){
             case "glasses":
                 if(player.getRoom() == Map.get(0)){
-                    Map.get(0).GetDirection("south").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if(item.getName().equalsIgnoreCase("glasses")){
+                            Map.get(0).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+
                 }
                 break;
             case "flashlight":
                 if(player.getRoom() == Map.get(1)){
-                    Map.get(1).GetDirection("south").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("flashlight")) {
+                            Map.get(1).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "book":
                 if(player.getRoom() == Map.get(6)){
-                    Map.get(6).GetDirection("west").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("book")) {
+                            Map.get(6).GetDirection("west").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "rope":
                 if(player.getRoom() == Map.get(4)){
-                    Map.get(4).GetDirection("south").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if(item.getName().equalsIgnoreCase("rope")){
+                            Map.get(4).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "hint1":
                 if(player.getRoom() == Map.get(2)){
-                    Map.get(2).GetDirection("south").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint1")) {
+                            Map.get(2).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "hint2":
                 if(player.getRoom() == Map.get(3)){
-                    Map.get(3).GetDirection("east").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint2")) {
+                            Map.get(3).GetDirection("east").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "hint3":
                 if(player.getRoom() == Map.get(4)){
-                    Map.get(4).GetDirection("east").RemoveFromDescription(player.getRoom().getItems().get(1).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint3")) {
+                            Map.get(4).GetDirection("east").RemoveFromDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "hint4":
                 if(player.getRoom() == Map.get(7)){
-                    Map.get(7).GetDirection("west").RemoveFromDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint4")) {
+                            Map.get(7).GetDirection("west").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+
                 }
                 break;
 
@@ -481,22 +511,39 @@ public class Game implements java.io.Serializable {
         switch (itemname.toLowerCase()) {
             case "glasses":
                 if (player.getRoom() == Map.get(0)) {
-                    Map.get(0).GetDirection("south").AddToDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("glasses")) {
+                            Map.get(0).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "flashlight":
                 if (player.getRoom() == Map.get(1)) {
-                    Map.get(1).GetDirection("south").AddToDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("flashlight")) {
+                            Map.get(1).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "book":
                 if (player.getRoom() == Map.get(6)) {
-                    Map.get(6).GetDirection("west").AddToDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("book")) {
+                            Map.get(6).GetDirection("west").AddToDescription(item.getmsg());
+                        }
+                    }
                 }
                 break;
             case "rope":
                 if (player.getRoom() == Map.get(4)) {
-                    Map.get(4).GetDirection("south").AddToDescription(player.getRoom().getItems().get(0).getmsg());
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("rope")) {
+                            Map.get(4).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
+
                 }
                 break;
         }
