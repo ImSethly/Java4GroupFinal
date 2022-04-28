@@ -16,8 +16,9 @@ public class Game implements java.io.Serializable {
         Game game = new Game();
 
         // Starting Message
-        System.out.println("Welcome player! We are in need of your help!\nThe Orcs have become rather distressed and we need your help calming them down.\nPlease locate all 6 Orcs and find a way to calm them down.\n Type Help to see all the valid commands");
+        System.out.println("Welcome player! We are in need of your help! \nPlease locate all 6 Orcs and find a way to calm them down.\n Type Help to see all the valid commands");
         System.out.println(currentLocation());
+        System.out.println(NPCS.get(0).getmsg(0));
 
         // Get user input
         Scanner userInput = new Scanner(System.in);
@@ -32,7 +33,7 @@ public class Game implements java.io.Serializable {
                 switch (input[0]) {
                     // Help command
                     case "help":
-                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, give <item>, solve <guess>, inventory");
+                        System.out.println("Valid Commands: look <direction>, walk <direction>, use <item>, pickup <item>, drop <item>, give <item>, solve <guess>, inventory, map, progress");
                         break;
                     // Look command
                     case "look":
@@ -149,10 +150,15 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: solve <guess>");
                         }
                         break;
-                    //TODO: implement a command to check the progress
+                    // implement a command to check the progress
+                    case "progress":
+                        System.out.println(progressCheck());
+                        break;
+
                     case "map":
                         showMap();
                         break;
+
                     default:
                         System.out.println("Invalid command!");
                         break;
@@ -287,12 +293,12 @@ public class Game implements java.io.Serializable {
         }
 
         //Instantiate NPCS
-        NPCS.add(new NPC("ORC",Map.get(0),"Durz(ORC1)","ORCDescription1",Orc1List));
-        NPCS.add(new NPC("ORC",Map.get(2),"Igug(ORC2)","ORCDescription2",Orc2List));
-        NPCS.add(new NPC("ORC",Map.get(3),"Nar(ORC3)","ORCDescription3",Orc3List));
-        NPCS.add(new NPC("ORC",Map.get(4),"Vatu(ORC4)","ORCDescription4",Orc4List));
-        NPCS.add(new NPC("ORC",Map.get(5),"Bor(ORC5)","ORCDescription5",Orc5List));
-        NPCS.add(new NPC("ORC",Map.get(7),"Ugak(ORC6)","ORCDescription6",Orc6List));
+        NPCS.add(new NPC("ORC",Map.get(0),"Durz(ORC1)","ORCDescription1",Orc1List, false));
+        NPCS.add(new NPC("ORC",Map.get(2),"Igug(ORC2)","ORCDescription2",Orc2List,false));
+        NPCS.add(new NPC("ORC",Map.get(3),"Nar(ORC3)","ORCDescription3",Orc3List, false));
+        NPCS.add(new NPC("ORC",Map.get(4),"Vatu(ORC4)","ORCDescription4",Orc4List, false));
+        NPCS.add(new NPC("ORC",Map.get(5),"Bor(ORC5)","ORCDescription5",Orc5List, false));
+        NPCS.add(new NPC("ORC",Map.get(7),"Ugak(ORC6)","ORCDescription6",Orc6List, false));
 
         //add a list of msgs for each ORC
         for (NPC npc: NPCS) {
@@ -315,8 +321,9 @@ public class Game implements java.io.Serializable {
                     npc.setmsg(npc.getName() + ": Nice try! Think about it more and guess again!");
                     break;
                 case "bor(orc5)":
-                    npc.setmsg(npc.getName() + ": I'll never be happy unless I can figure out this math problem... What are the first 5 digits of pi??");
+                    npc.setmsg(npc.getName() + ": I'll never be happy unless I can figure out this math problem... What are the first 3 digits of pi??");
                     npc.setmsg(npc.getName() + ": You're really smart, thank you for helping me. Now I can go home and eat the good kind of pie, yum!");
+                    npc.setmsg(npc.getName() + ": Nice try! Think about it more and guess again!");
                     break;
                 case "ugak(orc6)":
                     npc.setmsg(npc.getName() + ": I don't trust you, human. Tell me the names of all of my orc comrades, then maybe we can be friends.");
@@ -332,7 +339,7 @@ public class Game implements java.io.Serializable {
         Map.get(3).GetDirection("east").AddToDescription(room4List.get(0).getmsg());
         Map.get(4).GetDirection("east").AddToDescription(room5List.get(1).getmsg());
         Map.get(4).GetDirection("south").AddToDescription(room5List.get(0).getmsg());
-        Map.get(5).GetDirection("west").AddToDescription(room7List.get(0).getmsg());
+        Map.get(6).GetDirection("west").AddToDescription(room7List.get(0).getmsg());
         Map.get(7).GetDirection("west").AddToDescription(room8List.get(0).getmsg());
 
 
@@ -399,7 +406,7 @@ public class Game implements java.io.Serializable {
             System.out.println(" -----------        -----------       -----------");
             System.out.println("                          |                |");
             System.out.println(" ---Room5---        ---Room1---       ---Room6---       ---Room7---");
-            System.out.println("|    "+ r5 +"     |------|    "+r1+"     |-----|     "+r6+"    |-----|     "+r6+"    |");
+            System.out.println("|    "+ r5 +"     |------|    "+r1+"     |-----|     "+r6+"    |-----|     "+r7+"    |");
             System.out.println(" -----------        -----------       -----------       -----------");
             System.out.println("                                                            |");
             System.out.println("                                                        ---Room8---");
@@ -424,7 +431,21 @@ public class Game implements java.io.Serializable {
 
         return takemsg;
     }
+    public static  String progressCheck(){
+        String msg = "";
+        int complete = 0;
+        for(NPC npc : NPCS){
+            if (npc.getSpecies().equals("ORC")){
+                if(npc.getsatisfied()){
+                    complete++;
+                }
+            }
 
+        }
+        msg = "You've successfully helped " + complete + " out of "+ NPCS.size() + " Orcs!";
+
+        return  msg;
+    }
     //method to remove the item msg from direction description once item is picked up
     private static void ReditDirDescription(String itemname){
         switch (itemname.toLowerCase()){
@@ -589,16 +610,16 @@ public class Game implements java.io.Serializable {
                     break;
                     //TODO: Fill details about the hints
                 case "hint1":
-                    usemsg = "Hint1 : ";
+                    usemsg = "Hint1 : It is a mammal!";
                     break;
                 case "hint2":
-                    usemsg = "Hint2 : ";
+                    usemsg = "Hint2 : It has a tail!";
                     break;
                 case "hint3":
-                    usemsg = "Hint3 : ";
+                    usemsg = "Hint3 : It has four legs!";
                     break;
                 case "hint4":
-                    usemsg = "Hint4 : ";
+                    usemsg = "Hint4 : It barks!";
                     break;
             }
 
@@ -609,12 +630,27 @@ public class Game implements java.io.Serializable {
     //method to check if the answer for the riddle is correct
     public static String checkRiddle(String guess){
         String msg = "";
-        if(guess.toLowerCase().equals("dog")){
-            msg = NPCS.get(4).getmsg(1);
-        }else
-        {
-            msg = NPCS.get(4).getmsg(2);
+        if(player.getRoom().equals(Map.get(4))){
+            if(guess.toLowerCase().equals("dog")){
+                msg = NPCS.get(3).getmsg(1);
+                NPCS.get(3).setsatisfied(true);
+            }else
+            {
+                msg = NPCS.get(3).getmsg(2);
+            }
+        }else if(player.getRoom().equals((Map.get(5)))){
+            if(guess.equals("3.14")){
+                msg = NPCS.get(4).getmsg(1);
+                NPCS.get(4).setsatisfied(true);
+            }else
+            {
+                msg = NPCS.get(4).getmsg(2);
+            }
+        }else{
+            msg = "You need to be in "+ Map.get(4).getName() + " to solve the riddle! \nOr in "+ Map.get(5).getName() + " to solve the math test!!" ;
         }
+        //TODO: if the player guess the correct word what should we do to the ORC ?
+
         return msg;
     }
     //method to drop item that return msg
@@ -738,14 +774,23 @@ public class Game implements java.io.Serializable {
                                 movePlayerTo(player, Map.get(1));
                             }
                             case "east" -> {
-                                movemsg = "You are going to " + Map.get(5).getName();
+                                if(!NPCS.get(4).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(5).getName()+ "\n" + NPCS.get(4).getmsg(0);
+                                }else
+                                {
+                                    movemsg = "You are going to " + Map.get(5).getName();
+                                }
                                 movePlayerTo(player, Map.get(5));
                             }
                             case "south" -> {
                                 movemsg = "To the south, you see the portal that brought you here. You cannot access it";
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(4).getName() + "\n" + NPCS.get(3).getmsg(0);
+                                if(!NPCS.get(3).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(4).getName() + "\n" + NPCS.get(3).getmsg(0);
+                                }else{
+                                    movemsg = "You are going to " + Map.get(4).getName();
+                                }
                                 movePlayerTo(player, Map.get(4));
                             }
                         }
@@ -763,7 +808,12 @@ public class Game implements java.io.Serializable {
                                 movePlayerTo(player, Map.get(0));
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(2).getName();
+                                if(!NPCS.get(3).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(2).getName() + "\n" + NPCS.get(1).getmsg(0);
+                                }else {
+                                    movemsg = "You are going to " + Map.get(2).getName();
+                                }
+
                                 movePlayerTo(player, Map.get(2));
                             }
                         }
@@ -794,7 +844,13 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the east, there is woods too thick to pass. You cannot access it";
                             }
                             case "south" -> {
-                                movemsg = "You are going to " + Map.get(5).getName();
+                                if(!NPCS.get(4).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(5).getName() + "\n" + NPCS.get(4).getmsg(0);
+                                }else
+                                {
+                                    movemsg = "You are going to " + Map.get(5).getName();
+                                }
+
                                 movePlayerTo(player, Map.get(5));
                             }
                             case "west" -> {
@@ -822,7 +878,12 @@ public class Game implements java.io.Serializable {
                     case 6:
                         switch (dir.toLowerCase()) {
                             case "north" -> {
-                                movemsg = "You are going to " + Map.get(3).getName();
+                                if(!NPCS.get(2).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(3).getName()+ "\n" + NPCS.get(2).getmsg(0);
+                                }else{
+                                    movemsg = "You are going to " + Map.get(3).getName();
+                                }
+
                                 movePlayerTo(player, Map.get(3));
                             }
                             case "east" -> {
@@ -847,11 +908,16 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the east, there is woods too thick to pass. You cannot access it";
                             }
                             case "south" -> {
-                                movemsg = "You are going to " + Map.get(7).getName();
+                                if(!NPCS.get(5).getsatisfied()){
+                                    movemsg = "You are going to " + Map.get(7).getName()+ "\n" + NPCS.get(5).getmsg(0);
+                                }else{
+                                    movemsg = "You are going to " + Map.get(7).getName();
+                                }
+
                                 movePlayerTo(player, Map.get(7));
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(5).getName();
+                                movemsg = "You are going to " + Map.get(5).getName()+ "\n" + NPCS.get(4).getmsg(0);
                                 movePlayerTo(player, Map.get(5));
                             }
                         }

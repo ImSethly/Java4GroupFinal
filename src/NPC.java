@@ -12,15 +12,19 @@ public class NPC extends ItemHolder implements java.io.Serializable {
     //room where the NPC is at
     private Room room;
 
+    //satisfied boolean
+    private Boolean satisfied;
+
     //pre-set msgs
     private ArrayList<String> msgs= new ArrayList<>();;
 
     // Constructor to create an NPC
-    public NPC(String species, Room room, String npcName, String description, ItemList il) {
+    public NPC(String species, Room room, String npcName, String description, ItemList il, Boolean satisfied) {
         super(npcName, description, il);
 
         this.species = species;
         this.room = room;
+        this.satisfied = satisfied;
     }
     public String getmsg(int index) {
         return msgs.get(index);
@@ -28,5 +32,21 @@ public class NPC extends ItemHolder implements java.io.Serializable {
 
     public void setmsg(String msg) {
         this.msgs.add(msg);
+    }
+
+    public Boolean getsatisfied() {
+        return this.satisfied;
+    }
+
+    public void setsatisfied(Boolean satisfied) {
+        this.satisfied = satisfied;
+    }
+
+    public String getSpecies() {
+        return this.species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 }
