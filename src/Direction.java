@@ -22,6 +22,22 @@ public class Direction {
 
     public String getDescription() { return this.description; }
 
+    //add a msg description of an item if excisted
+    public void AddToDescription(String itemMsg){
+        this.description = this.description + " " + itemMsg;
+    }
+    //remove a msg description of an item if removed
+    public void RemoveFromDescription(String itemMsg){
+        try{
+
+            this.description = this.description.replace(itemMsg, "");
+        }catch(Exception e){
+
+        }
+
+
+    }
+
     public boolean getHasPath() { return this.hasPath; }
     public void setHasPath(boolean hasPath) { this.hasPath = hasPath; }
 

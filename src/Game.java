@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game implements java.io.Serializable {
 
@@ -95,7 +92,6 @@ public class Game implements java.io.Serializable {
                         }
                         break;
                     // Pickup command
-                    // TODO: when a player pickup an item change the direction message so it is no longer available in the direction message.
                     case "pickup":
                         if (input.length == 2) {
                             switch (input[1]) {
@@ -111,11 +107,11 @@ public class Game implements java.io.Serializable {
                     case "drop":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "apple":
+                                case "glasses", "flashlight", "book", "rope":
                                     System.out.println(dropItem(input[1]));
                                     break;
                                 default:
-                                    System.out.println("Invalid item name!");
+                                    System.out.println("You cannot drop this item. Invalid item name!");
                                     break;
                             }
                         }
@@ -193,13 +189,27 @@ public class Game implements java.io.Serializable {
 
         //TODO: add items to each room list of items
         room1List.add(new Item("Glasses", "Huge glasses seems to belong to a huge creature"));
+        room1List.get(0).setmsg(", and there are glasses on the ground that you can pick");
+
         room2List.add(new Item("Flashlight", "A magically powered flashlight, can light even the darkest of rooms."));
+        room2List.get(0).setmsg(", and there is a flashlight on the ground");
+
         room3List.add(new Item("Hint1", "A hint you need to use it in order to read it!"));
+        room3List.get(0).setmsg(" There is a small piece of paper laying on the ground.(hint1)");
+
         room4List.add(new Item("Hint2", "A hint you need to use it in order to read it!"));
+        room4List.get(0).setmsg(" There is a small piece of paper laying on the ground.(hint2)");
+
         room5List.add(new Item("Rope", "A long sturdy rope that can easily hold your body weight"));
+        room5List.get(0).setmsg(" there is long rope.");
         room5List.add(new Item("Hint3", "A hint you need to use it in order to read it!"));
+        room5List.get(1).setmsg(" There is a small piece of paper laying on the ground.(hint3)");
+
         room7List.add(new Item("Book", "An old book, looks too boring to read."));
+        room7List.get(0).setmsg(" there is an old book");
+
         room8List.add(new Item("Hint4", "A hint you need to use it in order to read it!"));
+        room8List.get(0).setmsg(" There is a small piece of paper laying on the ground.(hint4)");
 
         //TODO:add items to player if applicable
 
@@ -227,31 +237,31 @@ public class Game implements java.io.Serializable {
                 case "room1":
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
                     room.SetDirection("east", "To the east, there is an open path.", true, true);
-                    room.SetDirection("south", "To the south, there are glasses on the ground that you can pick, and you see the portal that brought you here.", false, false);
+                    room.SetDirection("south", "To the south, you see the portal that brought you here", false, false);
                     room.SetDirection("west", "To the west, there is a dark tunnel, too dark to pass without light source.", true, true);
                     break;
                 case "room2":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
                     room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
-                    room.SetDirection("south", "To the south, there is a flashlight on the ground, and an open path.", true, false);
+                    room.SetDirection("south", "To the south, there is an open path", true, false);
                     room.SetDirection("west", "To the west, there is a tall bookshelf filled with books. It appears to be missing a book..", true, true);
                     break;
                 case "room3":
                     room.SetDirection("north", "To the north, you see woods too thick to pass. It seems also to be a robot piece laying around", false, false);
                     room.SetDirection("east", "To the east, there is open path.", true, false);
-                    room.SetDirection("south", "To the south, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
+                    room.SetDirection("south", "To the south, you see woods too thick to pass.", false, false);
                     room.SetDirection("west", "To the west, there is an ugly green creature.", false, false);
                     break;
                 case "room4":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
-                    room.SetDirection("east", "To the east, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
+                    room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
                     room.SetDirection("south", "To the south, there is an open path.", true, false);
                     room.SetDirection("west", "To the west, there is an ugly green creature.", false, false);
                     break;
                 case "room5":
                     room.SetDirection("north", "To the north, there is an ugly green creature.", false, false);
-                    room.SetDirection("east", "To the east, there is an open path. There is a small piece of paper laying on the ground.", true, false);
-                    room.SetDirection("south", "To the south, there is long rope.", false, false);
+                    room.SetDirection("east", "To the east, there is an open path.", true, false);
+                    room.SetDirection("south", "To the south,  you see woods too thick to pass. ", false, false);
                     room.SetDirection("west", "To the west, you see woods too thick to pass.", false, false);
                     break;
                 case "room6":
@@ -264,13 +274,13 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
                     room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
                     room.SetDirection("south", "To the south, there is a steep cliff. You might need help getting down to the bottom", true, true);
-                    room.SetDirection("west", "To the west, there is an old book, and an open path.", true, false);
+                    room.SetDirection("west", "To the west,there is an open path.", true, false);
                     break;
                 case "room8":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", true, false);
                     room.SetDirection("east", "To the east, there is an ugly green creature.", false, false);
                     room.SetDirection("south", "To the south, you see woods too thick to pass.", false, false);
-                    room.SetDirection("west", "To the west, you see woods too thick to pass. There is a small piece of paper laying on the ground.", false, false);
+                    room.SetDirection("west", "To the west, you see woods too thick to pass.", false, false);
                     break;
 
             }
@@ -314,6 +324,16 @@ public class Game implements java.io.Serializable {
                     break;
             }
         }
+
+        //add the item messages to the directions of the rooms
+        Map.get(0).GetDirection("south").AddToDescription(room1List.get(0).getmsg());
+        Map.get(1).GetDirection("south").AddToDescription(room2List.get(0).getmsg());
+        Map.get(2).GetDirection("south").AddToDescription(room3List.get(0).getmsg());
+        Map.get(3).GetDirection("east").AddToDescription(room4List.get(0).getmsg());
+        Map.get(4).GetDirection("east").AddToDescription(room5List.get(1).getmsg());
+        Map.get(4).GetDirection("south").AddToDescription(room5List.get(0).getmsg());
+        Map.get(5).GetDirection("west").AddToDescription(room7List.get(0).getmsg());
+        Map.get(7).GetDirection("west").AddToDescription(room8List.get(0).getmsg());
 
 
 
@@ -396,11 +416,139 @@ public class Game implements java.io.Serializable {
         if (i == null) {
             takemsg = itemname + " is not here";
         } else {
+            ReditDirDescription(itemname);
             moveItem(i, player.getRoom().getItems(), player.getItems());
             takemsg = "you just got " + itemname + " !";
+
         }
+
         return takemsg;
     }
+
+    //method to remove the item msg from direction description once item is picked up
+    private static void ReditDirDescription(String itemname){
+        switch (itemname.toLowerCase()){
+            case "glasses":
+                if(player.getRoom() == Map.get(0)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if(item.getName().equalsIgnoreCase("glasses")){
+                            Map.get(0).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+
+                }
+                break;
+            case "flashlight":
+                if(player.getRoom() == Map.get(1)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("flashlight")) {
+                            Map.get(1).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "book":
+                if(player.getRoom() == Map.get(6)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("book")) {
+                            Map.get(6).GetDirection("west").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "rope":
+                if(player.getRoom() == Map.get(4)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if(item.getName().equalsIgnoreCase("rope")){
+                            Map.get(4).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "hint1":
+                if(player.getRoom() == Map.get(2)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint1")) {
+                            Map.get(2).GetDirection("south").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "hint2":
+                if(player.getRoom() == Map.get(3)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint2")) {
+                            Map.get(3).GetDirection("east").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "hint3":
+                if(player.getRoom() == Map.get(4)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint3")) {
+                            Map.get(4).GetDirection("east").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "hint4":
+                if(player.getRoom() == Map.get(7)){
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("hint4")) {
+                            Map.get(7).GetDirection("west").RemoveFromDescription(item.getmsg());
+                        }
+                    }
+
+                }
+                break;
+
+
+        }
+    }
+    //method to add the item msg to direction description once item is dropped off
+    private static void AddtoDirDescription(String itemname){
+        switch (itemname.toLowerCase()) {
+            case "glasses":
+                if (player.getRoom() == Map.get(0)) {
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("glasses")) {
+                            Map.get(0).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "flashlight":
+                if (player.getRoom() == Map.get(1)) {
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("flashlight")) {
+                            Map.get(1).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "book":
+                if (player.getRoom() == Map.get(6)) {
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("book")) {
+                            Map.get(6).GetDirection("west").AddToDescription(item.getmsg());
+                        }
+                    }
+                }
+                break;
+            case "rope":
+                if (player.getRoom() == Map.get(4)) {
+                    for (Item item: player.getRoom().getItems()) {
+                        if (item.getName().equalsIgnoreCase("rope")) {
+                            Map.get(4).GetDirection("south").AddToDescription(item.getmsg());
+                        }
+                    }
+
+                }
+                break;
+        }
+    }
+
     //method to use item that return msg
     public static String useItem(String itemname) {
         String usemsg = "";
@@ -480,12 +628,14 @@ public class Game implements java.io.Serializable {
         if (i == null) {
             dropmsg = itemname + " is not here";
         } else {
+
             moveItem(i, player.getItems(), player.getRoom().getItems());
             dropmsg = "you just dropped " + itemname + " !";
+            AddtoDirDescription(itemname);
         }
         return dropmsg;
     }
-    //TODO: method to drop item that return msg
+    //method to give item to NPC of that room
     public static String give(String itemname) {
         String givemsg ="";
 
