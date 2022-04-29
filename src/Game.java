@@ -1,8 +1,8 @@
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 public class Game implements java.io.Serializable {
 
+    static final String gameTitle = "The Angry Woods";
     static Player player;
     static String curMsg;
 
@@ -70,15 +70,9 @@ public class Game implements java.io.Serializable {
                             }
                             else {
                                 switch (input[1]) {
-                                    case "north", "up":
-                                    case "east", "right":
-                                    case "south", "down":
-                                    case "west", "left":
-                                        System.out.println(walkto(input[1]));
-                                        break;
-                                    default:
-                                        System.out.println("Invalid direction!");
-                                        break;
+                                    case "north", "up", "east", "right", "south", "down", "west", "left" ->
+                                            System.out.println(walkto(input[1]));
+                                    default -> System.out.println("Invalid direction!");
                                 }
                             }
                         }
@@ -115,12 +109,9 @@ public class Game implements java.io.Serializable {
                     case "drop":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "glasses", "flashlight", "book", "rope", "robothead","robotlegs", "robotbody":
-                                    System.out.println(dropItem(input[1]));
-                                    break;
-                                default:
-                                    System.out.println("You cannot drop this item. Invalid item name!");
-                                    break;
+                                case "glasses", "flashlight", "book", "rope", "robothead", "robotlegs", "robotbody" ->
+                                        System.out.println(dropItem(input[1]));
+                                default -> System.out.println("You cannot drop this item. Invalid item name!");
                             }
                         }
                         else {
@@ -131,12 +122,9 @@ public class Game implements java.io.Serializable {
                     case "give":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "glasses", "robothead", "robotbody", "robotlegs":
-                                    System.out.println(give(input[1]));
-                                    break;
-                                default:
-                                    System.out.println("Invalid item name!");
-                                    break;
+                                case "glasses", "robothead", "robotbody", "robotlegs" ->
+                                        System.out.println(give(input[1]));
+                                default -> System.out.println("Invalid item name!");
                             }
 
                         } else {
@@ -258,7 +246,7 @@ public class Game implements java.io.Serializable {
                 case "room1":
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
                     room.SetDirection("east", "To the east, there is an open path.", true, true);
-                    room.SetDirection("south", "To the south, you see the portal that brought you here. Walk south to leave.", true, false);
+                    room.SetDirection("south", "To the south, you see the portal that brought you here. Walk south to leave and end game.", true, false);
                     room.SetDirection("west", "To the west, there is a dark tunnel, too dark to pass without light source.", true, true);
                     break;
                 case "room2":
@@ -345,7 +333,7 @@ public class Game implements java.io.Serializable {
                     break;
                 case "ugak(orc6)":
                     npc.setmsg(npc.getName() + ": I don't trust you, human. Tell me the names of all of my orc comrades, then maybe we can be friends.");
-                    npc.setmsg(npc.getName() + ": You're pretty nice for a human. I suppose we can be friends. Ugak is happy."); // completion
+                    npc.setmsg(npc.getName() + ": Ok you got them all right! I believe you now, maybe we can be friends."); // completion
                     npc.setmsg(npc.getName() + ": You already gave that name. Tell me another one."); // already gave the name
                     npc.setmsg(npc.getName() + ": That's not one of my friends! Try again."); // not a name
                     npc.setmsg(npc.getName() + ": That's right! Tell me another one."); // is a name
@@ -410,10 +398,10 @@ public class Game implements java.io.Serializable {
 
         // Send out stats message
         if (allSatisfied) {
-            System.out.println("Congratulations on calming down all the Orcs! Now we can live in peace again.\nsend stats\nThanks for playing!");
+            System.out.println("Congratulations on calming down all the Orcs! Now we can live in peace again.\n" + stats + "\nThanks for playing " + gameTitle + "!");
         }
         else {
-            System.out.printf("Better luck next time.\n%s\nThanks for playing!", stats);
+            System.out.printf("Better luck next time.\n%s\nThanks for playing %s!", stats, gameTitle);
         }
 
         System.exit(0);
@@ -1069,7 +1057,7 @@ public class Game implements java.io.Serializable {
                                 }
                             }
                             case "west" -> {
-                                if(!NPCS.get(3).getsatisfied()){
+                                if(!NPCS.get(1).getsatisfied()){
                                     movemsg = "You are going to " + Map.get(2).getName() + tMsg + "\n" + NPCS.get(1).getmsg(0);
                                 }else {
                                     movemsg = "You are going to " + Map.get(2).getName() + tMsg;
@@ -1243,5 +1231,30 @@ public class Game implements java.io.Serializable {
             }
         }
         return movemsg;
+    }
+
+    class Player extends ItemHolder {
+
+        //if we consider a room as am actual ItemHolder why don't we leave the inventory there ?
+        //private ArrayList<Item> inventory;
+
+        //private int position;
+        //I believe it would be nicer to add the whole room to the player class so he has access
+        //to all the items inside of that room
+        private Room room;
+
+        public Player(String playerName, String Description, ItemList items, Room currentRoom) {
+            super(playerName, Description, items);
+
+            this.room = currentRoom;
+        }
+
+        public Room getRoom() {
+            return room;
+        }
+        public void setRoom(Room rm) {
+            room = rm;
+        }
+
     }
 }

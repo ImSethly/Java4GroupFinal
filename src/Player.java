@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-
 //a player can also be an item holder because he can hold stuff
+/*
 public class Player extends ItemHolder{
 
     //if we consider a room as am actual ItemHolder why don't we leave the inventory there ?
@@ -25,3 +24,4 @@ public class Player extends ItemHolder{
     }
 
 }
+*/

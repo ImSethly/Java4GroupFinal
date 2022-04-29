@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 //A room itself can be an ItemHolder because it holds a list of Items
-public class Room extends ItemHolder implements java.io.Serializable {
+final public class Room extends ItemHolder implements java.io.Serializable {
 
     private final int id;
     private final ArrayList<Direction> directions;
