@@ -37,6 +37,13 @@ public class Room extends ItemHolder implements java.io.Serializable {
     public Direction GetDirection(String direction) {
         Direction dir = null;
 
+        switch (direction) {
+            case "up" -> direction = "north";
+            case "down" -> direction = "south";
+            case "left" -> direction = "west";
+            case "right" -> direction = "east";
+        }
+
         for (Direction d : directions) {
             if (d.getName().equals(direction.toLowerCase())) {
                 dir = d;

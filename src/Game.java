@@ -39,10 +39,10 @@ public class Game implements java.io.Serializable {
                     case "look":
                         if (input.length == 2) {
                             switch (input[1]) {
-                                case "north":
-                                case "east":
-                                case "south":
-                                case "west":
+                                case "north", "up":
+                                case "east", "right":
+                                case "south", "down":
+                                case "west", "left":
                                     System.out.println(player.getRoom().GetDirection(input[1]).getDescription());
                                     break;
                                 default:
@@ -63,10 +63,10 @@ public class Game implements java.io.Serializable {
                             }
                             else {
                                 switch (input[1]) {
-                                    case "north":
-                                    case "east":
-                                    case "south":
-                                    case "west":
+                                    case "north", "up":
+                                    case "east", "right":
+                                    case "south", "down":
+                                    case "west", "left":
                                         System.out.println(walkto(input[1]));
                                         break;
                                     default:
@@ -831,6 +831,14 @@ public class Game implements java.io.Serializable {
     //move inside of the room
     public static String walkto(String dir) {
         String movemsg = "";
+
+        switch (dir) {
+            case "up" -> dir = "north";
+            case "down" -> dir = "south";
+            case "left" -> dir = "west";
+            case "right" -> dir = "east";
+        }
+
         Room r = player.getRoom();
         if (!player.getRoom().GetDirection(dir).getHasPath()) {
             movemsg = "There is no path to the " + dir + " !";
