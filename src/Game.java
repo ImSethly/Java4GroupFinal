@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 public class Game implements java.io.Serializable {
 
@@ -9,6 +10,12 @@ public class Game implements java.io.Serializable {
     static ArrayList<NPC> NPCS;
 
     static boolean isTutorial = true;
+
+    static ArrayList<String> orcBuddies = new ArrayList<>();
+
+    static boolean gameOver;
+
+    static int totalMapItems;
 
     public static void main(String[] args) {
 
@@ -24,7 +31,7 @@ public class Game implements java.io.Serializable {
         Scanner userInput = new Scanner(System.in);
 
         System.out.print(">");
-        while (userInput.hasNext()) {
+        while (userInput.hasNext() && !gameOver) {
 
             // Break the userInput into arguments
             String[] input = userInput.nextLine().toLowerCase().split(" ");
@@ -165,12 +172,17 @@ public class Game implements java.io.Serializable {
                 }
 
 
-            System.out.print(">");
+                if (!gameOver) {
+                    System.out.print(">");
+                }
         }
 
     }
 
     public Game() {
+
+        // Set gameOver boolean
+        gameOver = false;
 
         // Item lists for each room
         ItemList room1List = new ItemList();
@@ -246,7 +258,7 @@ public class Game implements java.io.Serializable {
                 case "room1":
                     room.SetDirection("north", "To the north, there is an ugly green creature, and an open path.", true, true);
                     room.SetDirection("east", "To the east, there is an open path.", true, true);
-                    room.SetDirection("south", "To the south, you see the portal that brought you here", false, false);
+                    room.SetDirection("south", "To the south, you see the portal that brought you here. Walk south to leave.", true, false);
                     room.SetDirection("west", "To the west, there is a dark tunnel, too dark to pass without light source.", true, true);
                     break;
                 case "room2":
@@ -333,7 +345,10 @@ public class Game implements java.io.Serializable {
                     break;
                 case "ugak(orc6)":
                     npc.setmsg(npc.getName() + ": I don't trust you, human. Tell me the names of all of my orc comrades, then maybe we can be friends.");
-                    npc.setmsg(npc.getName() + ": You're pretty nice for a human. I suppose we can be friends. Ugak is happy.");
+                    npc.setmsg(npc.getName() + ": You're pretty nice for a human. I suppose we can be friends. Ugak is happy."); // completion
+                    npc.setmsg(npc.getName() + ": You already gave that name. Tell me another one."); // already gave the name
+                    npc.setmsg(npc.getName() + ": That's not one of my friends! Try again."); // not a name
+                    npc.setmsg(npc.getName() + ": That's right! Tell me another one."); // is a name
                     break;
             }
         }
@@ -352,11 +367,56 @@ public class Game implements java.io.Serializable {
         Map.get(6).GetDirection("west").AddToDescription(room7List.get(0).getmsg());
         Map.get(7).GetDirection("west").AddToDescription(room8List.get(0).getmsg());
 
-
+        // Add OrcBuddies to Array
+        orcBuddies.add("durz");
+        orcBuddies.add("igug");
+        orcBuddies.add("nar");
+        orcBuddies.add("vatu");
+        orcBuddies.add("bor");
 
         //add a player and place it in the first room
         player = new Player("Player", "A pro gamer", playerItemsList, Map.get(0));
         curMsg = "What do you want to do?";
+
+        // Count total items at beginning
+        totalMapItems = CountMapItems();
+    }
+
+    public static int CountMapItems() {
+        int total = 0;
+
+        for (Room r : Map) {
+            total += r.getItems().size();
+        }
+
+        return total;
+    }
+
+    // Check if all Orcs are satisfied
+    public static void EndGame() {
+        boolean allSatisfied = true;
+        for(NPC npc : NPCS) {
+            if (!npc.getsatisfied()) {
+                allSatisfied = false;
+            }
+        }
+
+        // Set gameOver to true
+        gameOver = true;
+
+        // Stats message
+        String stats;
+        stats = String.format("%s\nYou collected %s out of %s items!", progressCheck(), totalMapItems - CountMapItems(), totalMapItems);
+
+        // Send out stats message
+        if (allSatisfied) {
+            System.out.println("Congratulations on calming down all the Orcs! Now we can live in peace again.\nsend stats\nThanks for playing!");
+        }
+        else {
+            System.out.printf("Better luck next time.\n%s\nThanks for playing!", stats);
+        }
+
+        System.exit(0);
     }
 
     //getting and setting the map
@@ -670,12 +730,97 @@ public class Game implements java.io.Serializable {
             {
                 msg = NPCS.get(4).getmsg(2);
             }
-        }else{
-            msg = "There is no riddle in this room that needs solving." ;
+        } else if (player.getRoom().equals((Map.get(7)))) {
+            if (!NPCS.get(5).getsatisfied()) {
+                switch (guess.toLowerCase()) {
+                    case "durz":
+                        if (orcBuddies.contains("durz")) {
+                            orcBuddies.remove(orcBuddies.indexOf("durz"));
+                            msg = NPCS.get(5).getmsg(4);
+                            if (checkBuddiesList(orcBuddies)) {
+                                msg = NPCS.get(5).getmsg(1);
+                                NPCS.get(5).setsatisfied(true);
+                            }
+                        } else {
+                            msg = NPCS.get(5).getmsg(2);
+                        }
+                        break;
+                    case "igug":
+                        if (orcBuddies.contains("igug")) {
+                            orcBuddies.remove(orcBuddies.indexOf("igug"));
+                            msg = NPCS.get(5).getmsg(4);
+                            if (checkBuddiesList(orcBuddies)) {
+                                msg = NPCS.get(5).getmsg(1);
+                                NPCS.get(5).setsatisfied(true);
+                            }
+                        } else {
+                            msg = NPCS.get(5).getmsg(2);
+                        }
+                        break;
+                    case "nar":
+                        if (orcBuddies.contains("nar")) {
+                            orcBuddies.remove(orcBuddies.indexOf("nar"));
+                            msg = NPCS.get(5).getmsg(4);
+                            if (checkBuddiesList(orcBuddies)) {
+                                msg = NPCS.get(5).getmsg(1);
+                                NPCS.get(5).setsatisfied(true);
+                            }
+                        } else {
+                            msg = NPCS.get(5).getmsg(2);
+                        }
+                        break;
+                    case "vatu":
+                        if (orcBuddies.contains("vatu")) {
+                            orcBuddies.remove(orcBuddies.indexOf("vatu"));
+                            msg = NPCS.get(5).getmsg(4);
+                            if (checkBuddiesList(orcBuddies)) {
+                                msg = NPCS.get(5).getmsg(1);
+                                NPCS.get(5).setsatisfied(true);
+                            }
+                        } else {
+                            msg = NPCS.get(5).getmsg(2);
+                        }
+                        break;
+                    case "bor":
+                        if (orcBuddies.contains("bor")) {
+                            orcBuddies.remove(orcBuddies.indexOf("bor"));
+                            msg = NPCS.get(5).getmsg(4);
+                            if (checkBuddiesList(orcBuddies)) {
+                                msg = NPCS.get(5).getmsg(1);
+                                NPCS.get(5).setsatisfied(true);
+                            }
+                        } else {
+                            msg = NPCS.get(5).getmsg(2);
+                        }
+                        break;
+                    default:
+                        msg = NPCS.get(5).getmsg(3);
+                        break;
+                }
+            }
+            else {
+                msg = "There is no riddle in this room that needs solving.";
+            }
+        } else{
+            msg = "There is no riddle in this room that needs solving.";
         }
 
         return msg;
     }
+
+    public static boolean checkBuddiesList(ArrayList<String> list) {
+        boolean isEmpty;
+
+        if (list.size() == 0) {
+            isEmpty = true;
+        }
+        else {
+            isEmpty = false;
+        }
+
+        return isEmpty;
+    }
+
     //method to drop item that return msg
     public static String dropItem(String itemname) {
         String dropmsg = "";
@@ -886,7 +1031,7 @@ public class Game implements java.io.Serializable {
                                 }
                             }
                             case "south" -> {
-                                movemsg = "To the south, you see the portal that brought you here. You cannot access it";
+                                EndGame();
                             }
                             case "west" -> {
                                 if (NPCS.get(2).getIsFollowing()) {
