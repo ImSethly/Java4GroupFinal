@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Game implements java.io.Serializable {
 
+    // TODO implement an easter egg using date and time
+    // TODO save stopwatch time to file as high score
     static final String gameTitle = "The Angry Woods";
     static Player player;
     static String curMsg;
@@ -30,11 +32,15 @@ public class Game implements java.io.Serializable {
         // Get user input
         Scanner userInput = new Scanner(System.in);
 
-        System.out.print(">");
-        while (userInput.hasNext() && !gameOver) {
+        try {
+            System.out.print(">");
+            while (userInput.hasNext() && !gameOver) {
 
-            // Break the userInput into arguments
-            String[] input = userInput.nextLine().toLowerCase().split(" ");
+                // Break the userInput into arguments
+                String[] input = userInput.nextLine().toLowerCase().split(" ");
+
+                // Assertion test for user input
+                //assert input[0].equals("") : "Blank";
 
                 // Execute Commands
                 switch (input[0]) {
@@ -145,26 +151,29 @@ public class Game implements java.io.Serializable {
                             System.out.println("Invalid Command. Try: solve <guess>");
                         }
                         break;
-                    // implement a command to check the progress
                     case "progress":
                         System.out.println(progressCheck());
                         break;
-
                     case "map":
                         showMap();
                         break;
-
                     default:
                         System.out.println("Invalid command!");
                         break;
                 }
 
-
                 if (!gameOver) {
                     System.out.print(">");
                 }
+            }
         }
-
+        catch (Exception ex)
+        {
+            System.out.println("Error "+ ex);
+        }
+        finally {
+            userInput.close();
+        }
     }
 
     public Game() {

@@ -28,14 +28,15 @@ public class Direction {
     }
     //remove a msg description of an item if removed
     public void RemoveFromDescription(String itemMsg){
-        try{
-
+        try {
             this.description = this.description.replace(itemMsg, "");
-        }catch(Exception e){
-
         }
-
-
+        catch (RuntimeException r) {
+            throw new RuntimeException("RunTime Error : " + r);
+        }
+        catch (Exception e){
+            System.out.println("Exception: " + e);
+        }
     }
 
     public boolean getHasPath() { return this.hasPath; }
