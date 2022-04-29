@@ -307,7 +307,7 @@ public class Game implements java.io.Serializable {
         for (NPC npc: NPCS) {
             switch (npc.getName().toLowerCase()){
                 case "durz(orc1)":
-                    npc.setmsg(npc.getName() + ": Ugh-hh! I can't find my glasses to read my favorite book. If you want to pass to the next level you have to look around, find my glasses, and return them to me!");
+                    npc.setmsg(npc.getName() + ": Ugh-hh! I can't find my glasses to read my favorite book. If you want to pass to the next room you have to look around, find my glasses, and return them to me!");
                     npc.setmsg(npc.getName() + ": Thank you, finally I can read again! My book says that you can now leave the room, try it out!");
                     break;
                 case "igug(orc2)":
@@ -323,7 +323,7 @@ public class Game implements java.io.Serializable {
                     break;
                 case "vatu(orc4)":
                     npc.setmsg(npc.getName() + ": Play with me! Throughout the forest are scattered hints to solve my riddle. Find the hints and piece them together (metaphorically)!");
-                    npc.setmsg(npc.getName() + ": You figured out the answer to my master riddle, congratulations! Thanks for playing with me. Next time I'll have to make an even hard one!");
+                    npc.setmsg(npc.getName() + ": You figured out the answer to my master riddle, congratulations! Thanks for playing with me. Next time I'll have to make an even harder one!");
                     npc.setmsg(npc.getName() + ": Nice try! Think about it more and guess again!");
                     break;
                 case "bor(orc5)":
@@ -616,6 +616,7 @@ public class Game implements java.io.Serializable {
                     if (Map.get(6).equals(player.getRoom()))
                     {
                         unlockPath(player.getRoom(), "south");
+                        player.getItems().remove(i);
                         usemsg = "You just used " + itemname + "! you can now climb down to the other side (walk south)";
                     }else
                     {
@@ -625,8 +626,8 @@ public class Game implements java.io.Serializable {
                 case "book":
                     if(Map.get(1).equals(player.getRoom())){
                         unlockPath(player.getRoom(), "west");
-                        usemsg = "You placed the " + itemname + " on the book shelf. The book shelf rotates revealing a hidden path way";
                         player.getItems().remove(i);
+                        usemsg = "You placed the " + itemname + " on the book shelf. The book shelf rotates revealing a hidden path way";
                     }else{
                         usemsg = "This book is written in ORCish, I can't read it!";
                     }
