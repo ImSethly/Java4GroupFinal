@@ -58,7 +58,7 @@ public class Game implements java.io.Serializable {
                     case "walk":
                         if (input.length == 2) {
                             if (player.getRoom() == Map.get(0) && game.isTutorial) {
-                                //TODO: Check if we the ORC is satisfied, display different messages based on that
+                                // Check if we the ORC is satisfied, display different messages based on that
                                 System.out.println("Please finish the tutorial before leaving the room.\n "+ NPCS.get(0).getmsg(0));
                             }
                             else {
@@ -82,7 +82,7 @@ public class Game implements java.io.Serializable {
                     // Use command
                     case "use":
                         if (input.length == 2) {
-                            // TODO remove key items from player inventory once it is used
+                            // remove key items from player inventory once it is used
                             switch (input[1]) {
                                 case "flashlight", "book", "rope", "hint1", "hint2", "hint3", "hint4" -> System.out.println(useItem(input[1]));
                                 default -> System.out.println("Invalid item name!");
@@ -223,10 +223,6 @@ public class Game implements java.io.Serializable {
 
         room8List.add(new Item("Hint4", "A hint you need to use it in order to read it!"));
         room8List.get(0).setmsg(" There is a small piece of paper laying on the ground.(hint4)");
-
-        //TODO:add items to player if applicable
-
-        //TODO:add items to Orcs if applicable
 
         // instantiate map
         Map = new ArrayList<Room>();
@@ -635,7 +631,6 @@ public class Game implements java.io.Serializable {
                         usemsg = "This book is written in ORCish, I can't read it!";
                     }
                     break;
-                    //TODO: Fill details about the hints
                 case "hint1":
                     usemsg = "Hint1 : It has a tail!";
                     break;
@@ -674,9 +669,8 @@ public class Game implements java.io.Serializable {
                 msg = NPCS.get(4).getmsg(2);
             }
         }else{
-            msg = "You need to be in "+ Map.get(4).getName() + " to solve the riddle! \nOr in "+ Map.get(5).getName() + " to solve the math test!!" ;
+            msg = "There is no riddle in this room that needs solving." ;
         }
-        //TODO: if the player guess the correct word what should we do to the ORC ?
 
         return msg;
     }
