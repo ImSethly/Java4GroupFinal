@@ -61,4 +61,11 @@ public class NPC extends ItemHolder implements java.io.Serializable {
     public void setIsFollowing(boolean bool) {
         isFollowing = bool;
     }
+
+    public Room getRoom() {
+        return room;
+    }
+    public void setRoom(Room rm) {
+        room = rm;
+    }
 }

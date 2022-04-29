@@ -265,7 +265,7 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
                     room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
                     room.SetDirection("south", "To the south, there is an open path.", true, false);
-                    room.SetDirection("west", "To the west, there is an ugly green creature.", false, false);
+                    room.SetDirection("west", "To the west, you see woods too thick to pass", false, false);
                     break;
                 case "room5":
                     room.SetDirection("north", "To the north, there is an ugly green creature.", false, false);
@@ -283,7 +283,7 @@ public class Game implements java.io.Serializable {
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", false, false);
                     room.SetDirection("east", "To the east, you see woods too thick to pass.", false, false);
                     room.SetDirection("south", "To the south, there is a steep cliff. You might need help getting down to the bottom", true, true);
-                    room.SetDirection("west", "To the west,there is an open path.", true, false);
+                    room.SetDirection("west", "To the west, there is an open path.", true, false);
                     break;
                 case "room8":
                     room.SetDirection("north", "To the north, you see woods too thick to pass.", true, false);
@@ -345,6 +345,7 @@ public class Game implements java.io.Serializable {
         Map.get(2).GetDirection("north").AddToDescription(room3List.get(1).getmsg());
         Map.get(3).GetDirection("east").AddToDescription(room4List.get(0).getmsg());
         Map.get(3).GetDirection("north").AddToDescription(room4List.get(1).getmsg());
+        Map.get(3).GetDirection("west").AddToDescription(" and there is an ugly green creature.");
         Map.get(4).GetDirection("east").AddToDescription(room5List.get(1).getmsg());
         Map.get(4).GetDirection("south").AddToDescription(room5List.get(0).getmsg());
         Map.get(5).GetDirection("south").AddToDescription(room6List.get(0).getmsg());
@@ -806,6 +807,11 @@ public class Game implements java.io.Serializable {
         p.setRoom(room);
     }
 
+    //moving the player from one room to another
+    public static void moveNPCTo(NPC n, Room room) {
+        n.setRoom(room);
+    }
+
     // Return which room you are at currently
     public static String currentLocation(){
         Room r = player.getRoom();
@@ -863,6 +869,9 @@ public class Game implements java.io.Serializable {
                             case "north" -> {
                                 movemsg = "You are going to " + Map.get(1).getName() + tMsg;
                                 movePlayerTo(player, Map.get(1));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(1));
+                                }
                             }
                             case "east" -> {
                                 if(!NPCS.get(4).getsatisfied()){
@@ -872,6 +881,9 @@ public class Game implements java.io.Serializable {
                                     movemsg = "You are going to " + Map.get(5).getName() + tMsg;
                                 }
                                 movePlayerTo(player, Map.get(5));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(5));
+                                }
                             }
                             case "south" -> {
                                 movemsg = "To the south, you see the portal that brought you here. You cannot access it";
@@ -890,6 +902,9 @@ public class Game implements java.io.Serializable {
                                     movemsg = "You are going to " + Map.get(4).getName() + tMsg;
                                 }
                                 movePlayerTo(player, Map.get(4));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(4));
+                                }
                             }
                         }
                         break;
@@ -904,6 +919,9 @@ public class Game implements java.io.Serializable {
                             case "south" -> {
                                 movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(0));
+                                }
                             }
                             case "west" -> {
                                 if(!NPCS.get(3).getsatisfied()){
@@ -913,6 +931,9 @@ public class Game implements java.io.Serializable {
                                 }
 
                                 movePlayerTo(player, Map.get(2));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(2));
+                                }
                             }
                         }
                         break;
@@ -924,6 +945,9 @@ public class Game implements java.io.Serializable {
                             case "east" -> {
                                 movemsg = "You are going to " + Map.get(1).getName() + tMsg;
                                 movePlayerTo(player, Map.get(1));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(1));
+                                }
                             }
                             case "south" -> {
                                 movemsg = "To the south, there is woods too thick to pass. You cannot access it";
@@ -950,6 +974,10 @@ public class Game implements java.io.Serializable {
                                 }
 
                                 movePlayerTo(player, Map.get(5));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    Map.get(3).GetDirection("west").RemoveFromDescription(" and there is an ugly green creature.");
+                                    moveNPCTo(NPCS.get(2), Map.get(5));
+                                }
                             }
                             case "west" -> {
                                 movemsg = "To the west, there is woods too thick to pass. You cannot access it";
@@ -964,6 +992,9 @@ public class Game implements java.io.Serializable {
                             case "east" -> {
                                 movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(0));
+                                }
                             }
                             case "south" -> {
                                 movemsg = "To the south, there is woods too thick to pass. You cannot access it";
@@ -979,15 +1010,22 @@ public class Game implements java.io.Serializable {
                                 if(!NPCS.get(2).getsatisfied() && !NPCS.get(2).getIsFollowing()){
                                     movemsg = "You are going to " + Map.get(3).getName()+ "\n" + NPCS.get(2).getmsg(0);
                                     NPCS.get(2).setIsFollowing(true);
-                                }else{
+                                }
+                                else {
                                     movemsg = "You are going to " + Map.get(3).getName() + tMsg;
                                 }
 
                                 movePlayerTo(player, Map.get(3));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(3));
+                                }
                             }
                             case "east" -> {
                                 movemsg = "You are going to " + Map.get(6).getName() + tMsg;
                                 movePlayerTo(player, Map.get(6));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(6));
+                                }
                             }
                             case "south" -> {
                                 movemsg = "To the south, there is woods too thick to pass. You cannot access it";
@@ -995,6 +1033,9 @@ public class Game implements java.io.Serializable {
                             case "west" -> {
                                 movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(0));
+                                }
                             }
                         }
                         break;
@@ -1014,6 +1055,9 @@ public class Game implements java.io.Serializable {
                                 }
 
                                 movePlayerTo(player, Map.get(7));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(7));
+                                }
                             }
                             case "west" -> {
                                 if (!NPCS.get(4).getsatisfied()) {
@@ -1023,6 +1067,9 @@ public class Game implements java.io.Serializable {
                                     movemsg = "You are going to " + Map.get(5).getName() + tMsg;
                                 }
                                 movePlayerTo(player, Map.get(5));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(5));
+                                }
                             }
                         }
                         break;
@@ -1031,6 +1078,9 @@ public class Game implements java.io.Serializable {
                             case "north" -> {
                                 movemsg = "You are going to " + Map.get(6).getName() + tMsg;
                                 movePlayerTo(player, Map.get(6));
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    moveNPCTo(NPCS.get(2), Map.get(6));
+                                }
                             }
                             case "east" -> {
                                 movemsg = "To the east, there is woods too thick to pass. You cannot access it";
