@@ -18,6 +18,9 @@ public class NPC extends ItemHolder implements java.io.Serializable {
     //pre-set msgs
     private ArrayList<String> msgs= new ArrayList<>();;
 
+    // isFollowing
+    private boolean isFollowing;
+
     // Constructor to create an NPC
     public NPC(String species, Room room, String npcName, String description, ItemList il, Boolean satisfied) {
         super(npcName, description, il);
@@ -25,6 +28,7 @@ public class NPC extends ItemHolder implements java.io.Serializable {
         this.species = species;
         this.room = room;
         this.satisfied = satisfied;
+        this.isFollowing = false;
     }
     public String getmsg(int index) {
         return msgs.get(index);
@@ -48,5 +52,13 @@ public class NPC extends ItemHolder implements java.io.Serializable {
 
     public void setSpecies(String species) {
         this.species = species;
+    }
+
+    public boolean getIsFollowing() {
+        return isFollowing;
+    }
+
+    public void setIsFollowing(boolean bool) {
+        isFollowing = bool;
     }
 }

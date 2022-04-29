@@ -322,7 +322,8 @@ public class Game implements java.io.Serializable {
                     break;
                 case "nar(orc3)":
                     npc.setmsg(npc.getName() + ": I'm afraid of the dark, can you help me find my way home? I'd appreciate it greatly!");
-                    npc.setmsg(npc.getName() + ": Thank you for guiding me through the dark. Darkness is much friendlier with a friend... and a flashlight!");
+                    npc.setmsg(npc.getName() + ": Thank you for helping me get back home. The dark isn't so scary with a friend!");
+                    npc.setmsg(npc.getName() + ": This doesn't look like my home. Lets keep looking.");
                     break;
                 case "vatu(orc4)":
                     npc.setmsg(npc.getName() + ": Play with me! Throughout the forest are scattered hints to solve my riddle. Find the hints and piece them together (metaphorically)!");
@@ -462,179 +463,135 @@ public class Game implements java.io.Serializable {
     private static void ReditDirDescription(String itemname){
         switch (itemname.toLowerCase()){
             case "glasses":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if(item.getName().equalsIgnoreCase("glasses")){
-                            player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if(item.getName().equalsIgnoreCase("glasses")){
+                        player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "flashlight":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("flashlight")) {
-                            player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("flashlight")) {
+                        player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "book":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("book")) {
-                            player.getRoom().GetDirection("west").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("book")) {
+                        player.getRoom().GetDirection("west").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "rope":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if(item.getName().equalsIgnoreCase("rope")){
-                            player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if(item.getName().equalsIgnoreCase("rope")){
+                        player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "hint1":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("hint1")) {
-                            player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("hint1")) {
+                        player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "hint2":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("hint2")) {
-                            player.getRoom().GetDirection("east").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("hint2")) {
+                        player.getRoom().GetDirection("east").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "hint3":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("hint3")) {
-                            player.getRoom().GetDirection("east").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("hint3")) {
+                        player.getRoom().GetDirection("east").RemoveFromDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "hint4":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("hint4")) {
-                            player.getRoom().GetDirection("west").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("hint4")) {
+                        player.getRoom().GetDirection("west").RemoveFromDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "robothead":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("RobotHead")) {
-                            player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("RobotHead")) {
+                        player.getRoom().GetDirection("south").RemoveFromDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "robotlegs":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("RobotLegs")) {
-                            player.getRoom().GetDirection("north").RemoveFromDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("RobotLegs")) {
+                        player.getRoom().GetDirection("north").RemoveFromDescription(item.getmsg());
                     }
+                }
                 break;
             case "robotbody":
-
                 for (Item item: player.getRoom().getItems()) {
                     if (item.getName().equalsIgnoreCase("RobotBody")) {
                         player.getRoom().GetDirection("north").RemoveFromDescription(item.getmsg());
                     }
                 }
                 break;
-
-
-
         }
     }
     //method to add the item msg to direction description once item is dropped off
     private static void AddtoDirDescription(String itemname){
         switch (itemname.toLowerCase()) {
             case "glasses":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("glasses")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("glasses")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "flashlight":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("flashlight")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("flashlight")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "book":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("book")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("book")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
+                }
                 break;
             case "rope":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("rope")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("rope")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "robothead":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("robothead")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("robothead")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "robotlegs":
-
-                    for (Item item: player.getRoom().getItems()) {
-                        if (item.getName().equalsIgnoreCase("robotlegs")) {
-                            player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
-                        }
+                for (Item item: player.getRoom().getItems()) {
+                    if (item.getName().equalsIgnoreCase("robotlegs")) {
+                        player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
-
-
+                }
                 break;
             case "robotbody":
-
                 for (Item item: player.getRoom().getItems()) {
                     if (item.getName().equalsIgnoreCase("robotBody")) {
                         player.getRoom().GetDirection("south").AddToDescription(item.getmsg());
                     }
                 }
-
-
                 break;
         }
     }
@@ -876,7 +833,6 @@ public class Game implements java.io.Serializable {
         return msg;
     }
 
-
     //move inside of the room
     public static String walkto(String dir) {
         String movemsg = "";
@@ -889,19 +845,28 @@ public class Game implements java.io.Serializable {
                 movemsg = "There is a path to the " + dir + " but it is locked!";
             } else
             {
+                // Add message for Orc 3 to tell you if that room is its home or not
+                String tMsg;
+                if (NPCS.get(2).getIsFollowing()) {
+                    tMsg = "\n" + NPCS.get(2).getmsg(2);
+                }
+                else {
+                    tMsg = "";
+                }
+
                 switch (r.getId()) {
                     case 1:
                         switch (dir.toLowerCase()) {
                             case "north" -> {
-                                movemsg = "You are going to " + Map.get(1).getName();
+                                movemsg = "You are going to " + Map.get(1).getName() + tMsg;
                                 movePlayerTo(player, Map.get(1));
                             }
                             case "east" -> {
                                 if(!NPCS.get(4).getsatisfied()){
-                                    movemsg = "You are going to " + Map.get(5).getName()+ "\n" + NPCS.get(4).getmsg(0);
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg + "\n" + NPCS.get(4).getmsg(0);
                                 }else
                                 {
-                                    movemsg = "You are going to " + Map.get(5).getName();
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg;
                                 }
                                 movePlayerTo(player, Map.get(5));
                             }
@@ -909,10 +874,17 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the south, you see the portal that brought you here. You cannot access it";
                             }
                             case "west" -> {
+                                if (NPCS.get(2).getIsFollowing()) {
+                                    // Set orc3 message, isSatisfied, and isFollowing when it arrives home
+                                    tMsg = "\n" + NPCS.get(2).getmsg(1);
+                                    NPCS.get(2).setsatisfied(true);
+                                    NPCS.get(2).setIsFollowing(false);
+                                }
+
                                 if(!NPCS.get(3).getsatisfied()){
-                                    movemsg = "You are going to " + Map.get(4).getName() + "\n" + NPCS.get(3).getmsg(0);
+                                    movemsg = "You are going to " + Map.get(4).getName() + tMsg + "\n" + NPCS.get(3).getmsg(0);
                                 }else{
-                                    movemsg = "You are going to " + Map.get(4).getName();
+                                    movemsg = "You are going to " + Map.get(4).getName() + tMsg;
                                 }
                                 movePlayerTo(player, Map.get(4));
                             }
@@ -927,14 +899,14 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the east, there is woods too thick to pass. You cannot access it";
                             }
                             case "south" -> {
-                                movemsg = "You are going to " + Map.get(0).getName();
+                                movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
                             }
                             case "west" -> {
                                 if(!NPCS.get(3).getsatisfied()){
-                                    movemsg = "You are going to " + Map.get(2).getName() + "\n" + NPCS.get(1).getmsg(0);
+                                    movemsg = "You are going to " + Map.get(2).getName() + tMsg + "\n" + NPCS.get(1).getmsg(0);
                                 }else {
-                                    movemsg = "You are going to " + Map.get(2).getName();
+                                    movemsg = "You are going to " + Map.get(2).getName() + tMsg;
                                 }
 
                                 movePlayerTo(player, Map.get(2));
@@ -947,7 +919,7 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the north, there is woods too thick to pass. You cannot access it";
                             }
                             case "east" -> {
-                                movemsg = "You are going to " + Map.get(1).getName();
+                                movemsg = "You are going to " + Map.get(1).getName() + tMsg;
                                 movePlayerTo(player, Map.get(1));
                             }
                             case "south" -> {
@@ -968,10 +940,10 @@ public class Game implements java.io.Serializable {
                             }
                             case "south" -> {
                                 if(!NPCS.get(4).getsatisfied()){
-                                    movemsg = "You are going to " + Map.get(5).getName() + "\n" + NPCS.get(4).getmsg(0);
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg + "\n" + NPCS.get(4).getmsg(0);
                                 }else
                                 {
-                                    movemsg = "You are going to " + Map.get(5).getName();
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg;
                                 }
 
                                 movePlayerTo(player, Map.get(5));
@@ -987,7 +959,7 @@ public class Game implements java.io.Serializable {
                                 movemsg = "To the north , there is woods too thick to pass. You cannot access it";
                             }
                             case "east" -> {
-                                movemsg = "You are going to " + Map.get(0).getName();
+                                movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
                             }
                             case "south" -> {
@@ -1001,23 +973,24 @@ public class Game implements java.io.Serializable {
                     case 6:
                         switch (dir.toLowerCase()) {
                             case "north" -> {
-                                if(!NPCS.get(2).getsatisfied()){
+                                if(!NPCS.get(2).getsatisfied() && !NPCS.get(2).getIsFollowing()){
                                     movemsg = "You are going to " + Map.get(3).getName()+ "\n" + NPCS.get(2).getmsg(0);
+                                    NPCS.get(2).setIsFollowing(true);
                                 }else{
-                                    movemsg = "You are going to " + Map.get(3).getName();
+                                    movemsg = "You are going to " + Map.get(3).getName() + tMsg;
                                 }
 
                                 movePlayerTo(player, Map.get(3));
                             }
                             case "east" -> {
-                                movemsg = "You are going to " + Map.get(6).getName();
+                                movemsg = "You are going to " + Map.get(6).getName() + tMsg;
                                 movePlayerTo(player, Map.get(6));
                             }
                             case "south" -> {
                                 movemsg = "To the south, there is woods too thick to pass. You cannot access it";
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(0).getName();
+                                movemsg = "You are going to " + Map.get(0).getName() + tMsg;
                                 movePlayerTo(player, Map.get(0));
                             }
                         }
@@ -1032,15 +1005,20 @@ public class Game implements java.io.Serializable {
                             }
                             case "south" -> {
                                 if(!NPCS.get(5).getsatisfied()){
-                                    movemsg = "You are going to " + Map.get(7).getName()+ "\n" + NPCS.get(5).getmsg(0);
+                                    movemsg = "You are going to " + Map.get(7).getName() + tMsg + "\n" + NPCS.get(5).getmsg(0);
                                 }else{
-                                    movemsg = "You are going to " + Map.get(7).getName();
+                                    movemsg = "You are going to " + Map.get(7).getName() + tMsg;
                                 }
 
                                 movePlayerTo(player, Map.get(7));
                             }
                             case "west" -> {
-                                movemsg = "You are going to " + Map.get(5).getName()+ "\n" + NPCS.get(4).getmsg(0);
+                                if (!NPCS.get(4).getsatisfied()) {
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg + "\n" + NPCS.get(4).getmsg(0);
+                                }
+                                else {
+                                    movemsg = "You are going to " + Map.get(5).getName() + tMsg;
+                                }
                                 movePlayerTo(player, Map.get(5));
                             }
                         }
@@ -1048,7 +1026,7 @@ public class Game implements java.io.Serializable {
                     case 8:
                         switch (dir.toLowerCase()) {
                             case "north" -> {
-                                movemsg = "You are going to " + Map.get(6).getName();
+                                movemsg = "You are going to " + Map.get(6).getName() + tMsg;
                                 movePlayerTo(player, Map.get(6));
                             }
                             case "east" -> {
