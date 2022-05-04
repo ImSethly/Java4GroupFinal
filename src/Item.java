@@ -31,13 +31,13 @@ public class Item {
     }
 
     //get item msg
-    public String getmsg() {
+    public String getMsg() {
         return msg;
     }
 
     //set item msg
-    public void setmsg(String amsg) {
-        this.msg = amsg;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
 }

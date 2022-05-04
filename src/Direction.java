@@ -2,16 +2,15 @@ import java.util.ArrayList;
 
 public class Direction {
 
-    private String name;
+    private final String name;
     private String description;
-    private ArrayList<Item> items;
 
     private boolean hasPath;
     private boolean isLocked;
 
     Direction(String name) {
         this.name = name;
-        items = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
     }
 
     public String getName() { return this.name; }
@@ -22,7 +21,7 @@ public class Direction {
 
     public String getDescription() { return this.description; }
 
-    //add a msg description of an item if excisted
+    //add a msg description of an item if existed
     public void AddToDescription(String itemMsg){
         this.description = this.description + " " + itemMsg;
     }

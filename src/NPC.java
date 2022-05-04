@@ -15,8 +15,8 @@ public class NPC extends ItemHolder implements java.io.Serializable {
     //satisfied boolean
     private Boolean satisfied;
 
-    //pre-set msgs
-    private ArrayList<String> msgs= new ArrayList<>();;
+    //pre-set msg
+    private final ArrayList<String> msg = new ArrayList<>();;
 
     // isFollowing
     private boolean isFollowing;
@@ -30,19 +30,19 @@ public class NPC extends ItemHolder implements java.io.Serializable {
         this.satisfied = satisfied;
         this.isFollowing = false;
     }
-    public String getmsg(int index) {
-        return msgs.get(index);
+    public String getMsg(int index) {
+        return msg.get(index);
     }
 
-    public void setmsg(String msg) {
-        this.msgs.add(msg);
+    public void setMsg(String msg) {
+        this.msg.add(msg);
     }
 
-    public Boolean getsatisfied() {
+    public Boolean getSatisfied() {
         return this.satisfied;
     }
 
-    public void setsatisfied(Boolean satisfied) {
+    public void setSatisfied(Boolean satisfied) {
         this.satisfied = satisfied;
     }
 
