@@ -1,3 +1,4 @@
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -144,6 +145,13 @@ public class Game implements java.io.Serializable {
                         break;
                     case "map":
                         showMap();
+                        break;
+                    case "print":
+                        if (input.length == 2) {
+                            printAllfiles(input[1]);
+                        } else {
+                            System.out.println("Invalid Command. Try: print <path>");
+                        }
                         break;
                     default:
                         System.out.println("Invalid command!");
@@ -359,8 +367,44 @@ public class Game implements java.io.Serializable {
 
         // Count total items at beginning
         totalMapItems = CountMapItems();
+
+
     }
 
+
+    //this methode will:
+    // Programmatically traverse your directory and print out the name and size of all files
+    //Programmatically retrieve a subdirectory and list out all the contents of that directory to the console
+    //Choose a file in your directory and print out the contents of that file to the console
+    public static void printAllfiles(String path){
+        //get the directory
+        File dir = new File(path);
+        boolean first = true;
+        try{
+            for(File f: dir.listFiles()){
+                if(f.isDirectory()){
+                    for(File file : f.listFiles()){
+                        if(file.isDirectory()){
+                            System.out.println("folder "+ file.getName());
+                        }else{
+                            System.out.println("file "+ file.getName());
+                        }
+                    }
+                }else{
+                    System.out.println("file name is "+ f.getName()+ " with a size of "+ f.length()+ " bytes!");
+                }
+                if(f.isFile() && first){
+
+                    FileInputStream fis = new FileInputStream(f);
+                    int oneByte;
+                    while ((oneByte = fis.read()) != -1) {
+                        System.out.write(oneByte);
+                    }
+                    System.out.flush();
+                }
+            }
+        }catch(Exception ex){}
+    }
     public static int CountMapItems() {
         int total = 0;
 
