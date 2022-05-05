@@ -1,3 +1,6 @@
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Game implements java.io.Serializable {
@@ -11,6 +14,9 @@ public class Game implements java.io.Serializable {
     static ArrayList<Room> Map;
     static ArrayList<NPC> NPCs;
 
+    static LocalTime starttime ;
+    static LocalTime endtime ;
+
     static boolean isTutorial = true;
 
     static ArrayList<String> orcBuddies = new ArrayList<>();
@@ -23,6 +29,8 @@ public class Game implements java.io.Serializable {
 
         // Setup game and create rooms
         Game game = new Game();
+
+        starttime = LocalTime.now();
 
         // Starting Message
         System.out.println("Welcome player, we are in need of your help! \nPlease locate all 6 Orcs and find a way to help them.\n Type Help to see all the valid commands");
@@ -366,12 +374,15 @@ public class Game implements java.io.Serializable {
     // Check if all Orcs are satisfied
     public static void EndGame() {
         boolean allSatisfied = true;
+        endtime = LocalTime.now();
+        Duration durationOfPlay = Duration.between(starttime,endtime);
         for(NPC npc : NPCs) {
             if (!npc.getSatisfied()) {
                 allSatisfied = false;
             }
         }
-
+        long sec= durationOfPlay.getSeconds();
+        String timeplayed = timePlayed(sec);
         // Set gameOver to true
         gameOver = true;
 
@@ -381,13 +392,34 @@ public class Game implements java.io.Serializable {
 
         // Send out stats message
         if (allSatisfied) {
-            System.out.println("Congratulations, you have helped all of the Orcs! Now they can live in peace once again.\n" + stats + "\nThank you for playing " + gameTitle + "!");
+            System.out.println("Congratulations, you have helped all of the Orcs! Now they can live in peace once again.\n" + stats + "\nThank you for playing " + gameTitle + "!\n"+ timeplayed);
         }
         else {
-            System.out.printf("Better luck next time.\n%s\nThanks for playing %s!", stats, gameTitle);
+            System.out.printf("Better luck next time.\n%s\nThanks for playing %s!\n%s", stats, gameTitle,timeplayed);
         }
 
         System.exit(0);
+    }
+    public static String timePlayed(long sec){
+        String msg="";
+        long seconds;
+        long min;
+        long minutes;
+        long hours;
+        if(sec < 60 ){
+            msg = "You Played a total of " + sec+ " seconds!";
+        }else if(sec< 3600){
+            min = sec / 60;
+            seconds = sec%60;
+            msg = "You Played a total of " + min + " minutes and "+ seconds + " seconds!";
+        } else {
+            min = sec / 60;
+            seconds = sec%60;
+            hours = min / 60;
+            minutes = min%60;
+            msg = "You Played a total of " + hours + " hours and "+ minutes + " minutes and "+ seconds + " seconds!";
+        }
+        return msg;
     }
 
     //getting and setting the map
