@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * Creates Room class
+ * @author Ayoub, Eric, Seth
+ */
+
 //A room itself can be an ItemHolder because it holds a list of Items
 final public class Room extends ItemHolder implements java.io.Serializable {
 

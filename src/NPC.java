@@ -4,6 +4,7 @@ import java.util.ArrayList;
  * Creates an NPC character
  * @author Ayoub, Eric, Seth
  */
+
 public class NPC extends ItemHolder implements java.io.Serializable {
 
     // Species of the NPC

@@ -1,5 +1,12 @@
 import java.util.function.Predicate;
 
+/**
+ * Creates Item class
+ * Any game object is an Item
+ * @author Ayoub, Eric, Seth
+ */
+
+
 public class Item {
 
     private String name;

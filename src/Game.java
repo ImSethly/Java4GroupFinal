@@ -1,6 +1,4 @@
-
 import org.apache.derby.jdbc.EmbeddedDataSource;
-
 import java.io.*;
 import java.sql.*;
 import java.time.Duration;
@@ -9,6 +7,12 @@ import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+
+
+/**
+ * Driver class Game
+ * @author Ayoub, Eric, Seth
+ */
 
 public class Game implements java.io.Serializable {
 
@@ -405,6 +409,7 @@ public class Game implements java.io.Serializable {
         }*/
     }
 
+    //Setting up database
     public static void dataBaseSetup(Connection con){
 
 
@@ -414,9 +419,7 @@ public class Game implements java.io.Serializable {
 
 
             Statement stmt = con.createStatement();
-            //if(tableExists(con, "room")){
-                stmt.executeUpdate("DROP TABLE room");
-            //}
+            stmt.executeUpdate("DROP TABLE room");
             stmt.executeUpdate("CREATE TABLE room" +
                     "(id INTEGER PRIMARY KEY, " +
                     "name VARCHAR(255), " +
@@ -438,13 +441,8 @@ public class Game implements java.io.Serializable {
             System.out.println("DB error!!!");
         }
     }
-    public static boolean tableExists(Connection connection, String tableName) throws SQLException {
-        DatabaseMetaData meta = connection.getMetaData();
-        ResultSet resultSet = meta.getTables(null, null, tableName, new String[] {"TABLE"});
 
-        return resultSet.next();
-    }
-
+    //Method to get high scores from files
     public static String getScores() throws IOException {
         List<String> scores = new ArrayList<>();
         String msg = "";
@@ -471,6 +469,7 @@ public class Game implements java.io.Serializable {
         return msg;
     }
 
+    //printing the orc names to a file
     public static void PrintOrcs(){
         //create a file locally
         try {
@@ -501,6 +500,8 @@ public class Game implements java.io.Serializable {
             e.printStackTrace();
         }
     }
+
+    //get current date and check if it is Christmas
     public static LocalDate getDate(){
         LocalDate date = LocalDate.now();
         MonthDay Christmas = MonthDay.of(12,25);
@@ -509,6 +510,8 @@ public class Game implements java.io.Serializable {
         }
         return date;
     }
+
+    //test: stream match check
     public void testIntMatching() {
         List<Integer> intList = Arrays.asList(2, 4, 5, 6, 8);
 
@@ -554,6 +557,8 @@ public class Game implements java.io.Serializable {
             }
         }catch(Exception ex){}
     }
+
+    // Count total map items
     public static int CountMapItems() {
         int total = 0;
 
@@ -581,11 +586,11 @@ public class Game implements java.io.Serializable {
 
         // Stats message
         String stats;
-        stats = String.format("%s\nYou collected %s out of %s items!", progressCheck(), totalMapItems - CountMapItems(), totalMapItems);
+        stats = String.format("%s\nYou collected %s out of %s items!\n%s", progressCheck(), totalMapItems - CountMapItems(), totalMapItems,timeplayed);
 
         // Send out stats message
         if (allSatisfied) {
-            System.out.println("Congratulations, you have helped all of the Orcs! Now they can live in peace once again.\n" + stats + "\nThank you for playing " + gameTitle + "!\n"+ timeplayed);
+            System.out.println("Congratulations, you have helped all of the Orcs! Now they can live in peace once again.\n" + stats + "\nThank you for playing " + gameTitle + "!\n");
             try {
                 FileWriter Fwriter = new FileWriter("SCORE.txt");
                 Fwriter.write("\n"+ timeplayed);
@@ -596,11 +601,13 @@ public class Game implements java.io.Serializable {
             }
         }
         else {
-            System.out.printf("Better luck next time.\n%s\nThanks for playing %s!\n%s", stats, gameTitle,timeplayed);
+            System.out.printf("Better luck next time.\n%s\nThanks for playing %s!\n", stats, gameTitle);
         }
 
         System.exit(0);
     }
+
+    // Return how long it took to complete the game
     public static String timePlayed(long sec){
         String msg="";
         long seconds;
@@ -627,7 +634,6 @@ public class Game implements java.io.Serializable {
     public static ArrayList getMap() {
         return Map;
     }
-
     public void setMap(ArrayList aMap) {
         Map = aMap;
     }
@@ -636,7 +642,6 @@ public class Game implements java.io.Serializable {
     public Player getPlayer() {
         return player;
     }
-
     public void setPlayer(Player aPlayer) {
         player = aPlayer;
     }
@@ -647,6 +652,7 @@ public class Game implements java.io.Serializable {
         toLst.add(i);
     }
 
+    // Show map
     public static void showMap(){
         String r1="  ",r2="  ",r3="  ",r4="  ",r5="  ",r6="  ",r7="  ",r8="  ";
         switch (player.getRoom().getId()) {
@@ -671,6 +677,7 @@ public class Game implements java.io.Serializable {
             System.out.println("                                                       |     "+r8+"    |");
             System.out.println("                                                        -----------");
     }
+
     //method to take item that return msg
     public static String takeItem(String itemName) {
         String takemsg = "";
@@ -689,6 +696,8 @@ public class Game implements java.io.Serializable {
 
         return takemsg;
     }
+
+    // Check the progress of the game
     public static  String progressCheck(){
         String msg = "";
         int complete = 0;
@@ -704,6 +713,7 @@ public class Game implements java.io.Serializable {
 
         return  msg;
     }
+
     //method to remove the item msg from direction description once item is picked up
     private static void EditDirDescription(String itemName){
         switch (itemName.toLowerCase()){
@@ -786,6 +796,7 @@ public class Game implements java.io.Serializable {
                 break;
         }
     }
+
     //method to add the item msg to direction description once item is dropped off
     private static void AddToDirDescription(String itemName){
         switch (itemName.toLowerCase()) {
@@ -899,6 +910,7 @@ public class Game implements java.io.Serializable {
         }
         return usemsg;
     }
+
     //method to check if the answer for the riddle is correct
     public static String checkRiddle(String guess){
         String msg = "";
@@ -996,6 +1008,7 @@ public class Game implements java.io.Serializable {
         return msg;
     }
 
+    // Method to check if the ORC''s name list is empty
     public static boolean checkBuddiesList(ArrayList<String> list) {
         boolean isEmpty;
 
@@ -1022,6 +1035,7 @@ public class Game implements java.io.Serializable {
         }
         return dropmsg;
     }
+
     //method to give item to NPC of that room
     public static String give(String itemName) {
         String givemsg ="";
@@ -1424,6 +1438,11 @@ public class Game implements java.io.Serializable {
         return movemsg;
     }
 
+    /**
+     * Creates Player class
+     * Example of a nested class
+     * @author Ayoub, Eric, Seth
+     */
     static class Player extends ItemHolder {
 
         //if we consider a room as am actual ItemHolder why don't we leave the inventory there ?

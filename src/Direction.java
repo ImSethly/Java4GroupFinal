@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Creates Direction class
+ * @author Ayoub, Eric, Seth
+ */
 public class Direction {
 
     private final String name;

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * Creates ItemHolder class
+ * @author Ayoub, Eric, Seth
+ */
+
 //each Item holder has a name and a description
 public class ItemHolder extends Item implements java.io.Serializable {
 

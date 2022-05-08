@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Creates ItemList class
+ * @author Ayoub, Eric, Seth
+ */
 
 public class ItemList extends ArrayList<Item> implements java.io.Serializable{
 
