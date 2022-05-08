@@ -1,8 +1,11 @@
+import java.util.function.Predicate;
+
 public class Item {
 
     private String name;
     private String description;
     private String msg;
+    public Predicate<String> whatever = String::isEmpty;
 
     //Item constructor
     public Item(String name, String aDescription) {
@@ -38,6 +41,11 @@ public class Item {
     //set item msg
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    @Override
+    public String toString(){
+        return this.name +": "+ this.description ;
     }
 
 }

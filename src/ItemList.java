@@ -9,9 +9,11 @@ public class ItemList extends ArrayList<Item> implements java.io.Serializable{
         if (this.size() == 0) {
             s = new StringBuilder("You don't have any items.\n");
         } else {
+            this.sort(new ItemHolder.ItemSorter());
             for (Item t : this) {
                 s.append(t.getName()).append(": ").append(t.getDescription()).append("\n");
             }
+
         }
         return s.toString().trim();
     }

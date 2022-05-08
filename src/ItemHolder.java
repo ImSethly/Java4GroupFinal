@@ -1,4 +1,6 @@
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 //each Item holder has a name and a description
 public class ItemHolder extends Item implements java.io.Serializable {
@@ -19,5 +21,15 @@ public class ItemHolder extends Item implements java.io.Serializable {
     //set a list of items in the item holder
     public void setItems(ItemList things) {
         this.items = items;
+    }
+
+
+    public static class ItemSorter implements Comparator<Item>
+    {
+
+        @Override
+        public int compare(Item item1, Item item2) {
+            return item1.getName().compareToIgnoreCase( item2.getName() );
+        }
     }
 }

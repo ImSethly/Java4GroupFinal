@@ -1,6 +1,8 @@
 import java.io.*;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -152,6 +154,13 @@ public class Game implements java.io.Serializable {
                         } else {
                             System.out.println("Invalid Command. Try: print <path>");
                         }
+                        break;
+                    case "date":
+                        System.out.println(getDate());
+                        break;
+                    case "test":
+                        PrintOrcs();
+                        System.out.println(getScores());
                         break;
                     default:
                         System.out.println("Invalid command!");
@@ -368,17 +377,99 @@ public class Game implements java.io.Serializable {
         // Count total items at beginning
         totalMapItems = CountMapItems();
 
+        //create scores file
+        /*try {
+            File file = new File("SCORE.txt");
+            if(file.createNewFile()){
+                System.out.println("file created!");
+            }
+        }catch(Exception ex){
 
+        }*/
     }
 
+    public static String getScores() throws IOException {
+        List<String> scores = new ArrayList<>();
+        String msg = "";
+        BufferedReader br = null;
+        try {
+
+            br = new BufferedReader(new FileReader("SCORE.txt"));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                scores.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                br.close();
+            }
+        }
+        for (String score : scores){
+            msg+= score;
+        }
+        return msg;
+    }
+
+    public static void PrintOrcs(){
+        //create a file locally
+        try {
+        File myFile = new File("ORCNames.txt");
+            if(!myFile.createNewFile()){
+                myFile.delete();
+                myFile = new File("ORCNames.txt");
+            }
+            //write into the file created
+            FileWriter myWriter = new FileWriter(myFile.getName());
+            for(NPC orc : NPCs){
+                myWriter.write(orc.getName()+ "\n");
+            }
+            myWriter.close();
+
+            //read everything from the file created
+            FileReader myReader = new FileReader(myFile.getName());
+            int i;
+            while((i=myReader.read())!=-1)
+                System.out.print((char)i);
+            myReader.close();
+
+            System.out.println("Successfully wrote to the file.");
+
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+    public static LocalDate getDate(){
+        LocalDate date = LocalDate.now();
+        MonthDay Christmas = MonthDay.of(12,25);
+        if(date.getMonthValue() == Christmas.getMonthValue() && date.getDayOfMonth() == Christmas.getDayOfMonth()){
+            System.out.println("Merry Christmas!");
+        }
+        return date;
+    }
+    public void testIntMatching() {
+        List<Integer> intList = Arrays.asList(2, 4, 5, 6, 8);
+
+        boolean allEven = intList.stream().allMatch(i -> i % 2 == 0);
+        boolean oneEven = intList.stream().anyMatch(i -> i % 2 == 0);
+        boolean noneMultipleOfThree = intList.stream().noneMatch(i -> i % 3 == 0);
+
+    }
 
     //this methode will:
     // Programmatically traverse your directory and print out the name and size of all files
     //Programmatically retrieve a subdirectory and list out all the contents of that directory to the console
     //Choose a file in your directory and print out the contents of that file to the console
     public static void printAllfiles(String path){
+        boolean check = Map.get(0).getItems().getItem("glasses").whatever.test("");
         //get the directory
         File dir = new File(path);
+        FileWriter fWriter;
         boolean first = true;
         try{
             for(File f: dir.listFiles()){
@@ -392,6 +483,7 @@ public class Game implements java.io.Serializable {
                     }
                 }else{
                     System.out.println("file name is "+ f.getName()+ " with a size of "+ f.length()+ " bytes!");
+
                 }
                 if(f.isFile() && first){
 
@@ -437,6 +529,14 @@ public class Game implements java.io.Serializable {
         // Send out stats message
         if (allSatisfied) {
             System.out.println("Congratulations, you have helped all of the Orcs! Now they can live in peace once again.\n" + stats + "\nThank you for playing " + gameTitle + "!\n"+ timeplayed);
+            try {
+                FileWriter Fwriter = new FileWriter("SCORE.txt");
+                Fwriter.write("\n"+ timeplayed);
+                Fwriter.close();
+
+            }catch (Exception ex){
+                //ignore
+            }
         }
         else {
             System.out.printf("Better luck next time.\n%s\nThanks for playing %s!\n%s", stats, gameTitle,timeplayed);

@@ -1,0 +1,6 @@
+Durz(ORC1)
+Igug(ORC2)
+Nar(ORC3)
+Vatu(ORC4)
+Bor(ORC5)
+Ugak(ORC6)
