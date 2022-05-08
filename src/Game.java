@@ -1,4 +1,7 @@
+import org.apache.derby.jdbc.EmbeddedDataSource;
+
 import java.io.*;
+import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,6 +37,19 @@ public class Game implements java.io.Serializable {
         Game game = new Game();
 
         starttime = LocalTime.now();
+
+
+        // set connection for db
+        String url = "jdbc:derby:zoo;create=true";
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url);
+            //System.out.println("Connected to Db!");
+            //dataBaseSetup(con);
+            con.close();
+        }catch (Exception e){
+            System.out.println("Connection failed to Db!");
+        }
 
         // Starting Message
         System.out.println("Welcome player, we are in need of your help! \nPlease locate all 6 Orcs and find a way to help them.\n Type Help to see all the valid commands");
@@ -243,9 +259,9 @@ public class Game implements java.io.Serializable {
         Map.add(new Room("Portal Room", "A room containing the magical portal that brought you here.", room1List, 1));
         Map.add(new Room("Library", "A small library filled with dusty, old books.", room2List, 2));
         Map.add(new Room("Workshop", "Old broken tools, rusty workbenches, and the smell of oil fills the room.", room3List, 3));
-        Map.add(new Room("Swamp", "Mosquitoes and a rotten stench permeate the air. Better not stick around too long...", room4List, 4));
-        Map.add(new Room("Dining Room", "An ORC sits at the head of a large dinner table. It seems as if he's awaiting company.", room5List, 5));
-        Map.add(new Room("Class Room", "... Desks... chalk... blackboards... overly optimistic poster phrases! this must be a class room...", room6List, 6));
+        Map.add(new Room("Swamp", "Mosquitoes and a rotten stench permeate the air. Better not stick around too long.", room4List, 4));
+        Map.add(new Room("Dining Room", "An ORC sits at the head of a large dinner table. It seems as if he is awaiting company.", room5List, 5));
+        Map.add(new Room("Class Room", "Desks, chalk, blackboards, overly optimistic poster phrases! this must be a class room.", room6List, 6));
         Map.add(new Room("Cliff", "A large cliff, be careful near the ledge!", room7List, 7));
         Map.add(new Room("Campsite", "A campsite next to a beautiful shimmering blue stream.", room8List, 8));
 
@@ -386,6 +402,46 @@ public class Game implements java.io.Serializable {
         }catch(Exception ex){
 
         }*/
+    }
+
+    public static void dataBaseSetup(Connection con){
+
+
+        try {
+            EmbeddedDataSource ds = new EmbeddedDataSource();
+            ds.setDatabaseName("AdventureGame");
+
+
+            Statement stmt = con.createStatement();
+            //if(tableExists(con, "room")){
+                stmt.executeUpdate("DROP TABLE room");
+            //}
+            stmt.executeUpdate("CREATE TABLE room" +
+                    "(id INTEGER PRIMARY KEY, " +
+                    "name VARCHAR(255), " +
+                    "description VARCHAR(530))");
+
+            for(Room r : Map) {
+                String strQuery= "INSERT INTO room VALUES("+r.getId()+ ", '" + r.getName()+"', '"+r.getDescription()+"')";
+                stmt.executeUpdate(strQuery);
+            }
+
+            ResultSet rs = stmt.executeQuery("SELECT id, name, description FROM room");
+
+            while(rs.next()){
+                System.out.println("Room Name" + rs.getString("name"));
+                System.out.println("Room description" + rs.getString("description"));
+            }
+
+        }catch (Exception e){
+            System.out.println("DB error!!!");
+        }
+    }
+    public static boolean tableExists(Connection connection, String tableName) throws SQLException {
+        DatabaseMetaData meta = connection.getMetaData();
+        ResultSet resultSet = meta.getTables(null, null, tableName, new String[] {"TABLE"});
+
+        return resultSet.next();
     }
 
     public static String getScores() throws IOException {
